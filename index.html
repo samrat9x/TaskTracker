@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Time Tracker</title>
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#0078d7" />
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f4f4f9;
+      }
+      .container {
+        width: 400px;
+        padding: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+      .tabs {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 20px;
+      }
+      .tab-button {
+        padding: 10px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+      }
+      .tab-button.active {
+        background-color: #28a745;
+        color: white;
+      }
+      .task-form {
+        display: flex;
+        gap: 5px;
+        margin-bottom: 10px;
+      }
+      .task-form input,
+      .task-form button {
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+      .task-form button {
+        background-color: #28a745;
+        color: white;
+        cursor: pointer;
+        border: none;
+      }
+      #taskList {
+        list-style-type: none;
+        padding: 0;
+      }
+      .task-item {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+        padding: 10px;
+        background: #f8f9fa;
+        border-radius: 5px;
+        gap: 10px;
+      }
+      .task-item .task-name {
+        flex: 1;
+        padding: 5px;
+        text-align: center;
+        font-weight: bold;
+      }
+      .task-item .task-time {
+        padding: 5px;
+        background-color: #e9ecef;
+        border-radius: 5px;
+        text-align: center;
+        font-family: monospace;
+        width: 100px;
+      }
+      .task-item button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        padding: 5px;
+      }
+      .task-item button.stop {
+        background-color: #ffc107;
+      }
+      .task-item button.edit {
+        background-color: #17a2b8;
+      }
+      .task-item button.delete {
+        background-color: #dc3545;
+      }
+      .task-item button:hover {
+        opacity: 0.9;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Task Time Tracker</h1>
+
+      <div class="tabs">
+        <div
+          id="tab-specific"
+          class="tab-button"
+          onclick="switchTab('specific')"
+        >
+          Specific Days
+        </div>
+        <div id="tab-general" class="tab-button" onclick="switchTab('general')">
+          General Tasks
+        </div>
+      </div>
+
+      <div class="task-form">
+        <input type="text" id="taskName" placeholder="Task Name" />
+        <button onclick="addTask()">Add Task</button>
+      </div>
+
+      <ul id="taskList"></ul>
+    </div>
+
+    <script>
+      const specificDays = ["Fri", "Sat", "Mon", "Wed"];
+      const currentDay = new Date().toLocaleString("en-us", {
+        weekday: "short",
+      });
+      const tasks = JSON.parse(localStorage.getItem("tasks")) || {
+        specific: [],
+        general: [],
+      };
+      let activeTab = specificDays.includes(currentDay)
+        ? "specific"
+        : "general";
+      let timers = {};
+
+      // Automatically switch tab on page load based on day
+      window.onload = () => {
+        switchTab(activeTab);
+      };
+
+      function switchTab(tab) {
+        activeTab = tab;
+        document
+          .getElementById("tab-specific")
+          .classList.toggle("active", tab === "specific");
+        document
+          .getElementById("tab-general")
+          .classList.toggle("active", tab === "general");
+        displayTasks();
+      }
+
+      function addTask() {
+        const taskName = document.getElementById("taskName").value.trim();
+        if (taskName) {
+          tasks[activeTab].push({ name: taskName, time: 0 });
+          localStorage.setItem("tasks", JSON.stringify(tasks));
+          document.getElementById("taskName").value = "";
+          displayTasks();
+        }
+      }
+
+      function displayTasks() {
+        const taskList = document.getElementById("taskList");
+        taskList.innerHTML = "";
+        tasks[activeTab].forEach((task, index) => {
+          const taskItem = document.createElement("li");
+          taskItem.className = "task-item";
+
+          taskItem.innerHTML = `
+                    <div class="task-name">${task.name}</div>
+                    <div class="task-time" id="time-${activeTab}-${index}">${formatTime(
+            task.time
+          )}</div>
+                    <button onclick="toggleTimer('${activeTab}', ${index})" class="timer-button">Start Timer</button>
+                    <button onclick="editTask('${activeTab}', ${index})" class="edit">Edit</button>
+                    <button onclick="deleteTask('${activeTab}', ${index})" class="delete">Delete</button>
+                `;
+
+          taskList.appendChild(taskItem);
+          updateTimerButton(task, index);
+        });
+      }
+
+      function toggleTimer(tab, index) {
+        const timerKey = `${tab}-${index}`;
+        const task = tasks[tab][index];
+        const timerButton = document.querySelector(
+          `#time-${timerKey}`
+        ).nextElementSibling;
+
+        if (timers[timerKey]) {
+          clearInterval(timers[timerKey]);
+          delete timers[timerKey];
+          timerButton.textContent = "Start Timer";
+          timerButton.classList.remove("stop");
+        } else {
+          timers[timerKey] = setInterval(() => {
+            task.time++;
+            document.getElementById(`time-${timerKey}`).textContent =
+              formatTime(task.time);
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+          }, 1000);
+          timerButton.textContent = "Stop Timer";
+          timerButton.classList.add("stop");
+        }
+      }
+
+      function editTask(tab, index) {
+        const newName = prompt("Edit Task Name:", tasks[tab][index].name);
+        if (newName !== null && newName.trim() !== "") {
+          tasks[tab][index].name = newName.trim();
+          localStorage.setItem("tasks", JSON.stringify(tasks));
+          displayTasks();
+        }
+      }
+
+      function deleteTask(tab, index) {
+        tasks[tab].splice(index, 1);
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+        displayTasks();
+      }
+
+      function formatTime(seconds) {
+        const hrs = Math.floor(seconds / 3600)
+          .toString()
+          .padStart(2, "0");
+        const mins = Math.floor((seconds % 3600) / 60)
+          .toString()
+          .padStart(2, "0");
+        const secs = (seconds % 60).toString().padStart(2, "0");
+        return `${hrs}:${mins}:${secs}`;
+      }
+
+      function updateTimerButton(task, index) {
+        const timerKey = `${activeTab}-${index}`;
+        const timerButton = document.querySelector(
+          `#time-${timerKey}`
+        ).nextElementSibling;
+        if (timers[timerKey]) {
+          timerButton.textContent = "Stop Timer";
+          timerButton.classList.add("stop");
+        } else {
+          timerButton.textContent = "Start Timer";
+          timerButton.classList.remove("stop");
+        }
+      }
+
+      displayTasks();
+    </script>
+  </body>
+</html>
