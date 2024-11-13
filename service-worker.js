@@ -2,11 +2,9 @@ const CACHE_NAME = "task-time-tracker-v1";
 const urlsToCache = [
   "/",
   "/index.html",
-  "/style.css", // Add your CSS files
   "/manifest.json",
   "/icons/icon-192x192.png",
   "/icons/icon-512x512.png",
-  "/script.js", // Add any other JS files you need
 ];
 
 // Install Service Worker and cache files
