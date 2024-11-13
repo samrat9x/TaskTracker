@@ -1,7 +1,7 @@
 {
-  "name": "Two's Complement Calculator",
-  "short_name": "Complement",
-  "description": "A simple tool to calculate the two's complement of a number.",
+  "name": "TTT",
+  "short_name": "TTT",
+  "description": "A simple tool to track the task",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
