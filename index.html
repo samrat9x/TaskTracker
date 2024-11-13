@@ -5,10 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Task Time Tracker</title>
     <link rel="manifest" href="manifest.json" />
-    <link rel="icon" href="icons/icon-192x192.png" sizes="192x192" />
-    <link rel="apple-touch-icon" href="icons/icon-192x192.png" />
-    <meta name="theme-color" content="#28a745" />
-
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("service-worker.js")
+          .then(() => console.log("Service Worker Registered"));
+      }
+    </script>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -113,23 +116,6 @@
         opacity: 0.9;
       }
     </style>
-    <script>
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", () => {
-          navigator.serviceWorker
-            .register("/service-worker.js")
-            .then((registration) => {
-              console.log(
-                "Service Worker registered with scope:",
-                registration.scope
-              );
-            })
-            .catch((error) => {
-              console.log("Service Worker registration failed:", error);
-            });
-        });
-      }
-    </script>
   </head>
   <body>
     <div class="container">
