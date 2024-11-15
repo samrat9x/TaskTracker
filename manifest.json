@@ -1,6 +1,6 @@
 {
-  "name": "TTT",
-  "short_name": "TTT",
+  "name": "MyTask",
+  "short_name": "MyTask",
   "description": "A simple tool to track the task",
   "start_url": "index.html",
   "display": "standalone",
