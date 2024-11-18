@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Task Time Tracker</title>
+    <title>MyTask</title>
     <link rel="manifest" href="manifest.json" />
     <script>
       if ("serviceWorker" in navigator) {
@@ -13,6 +13,7 @@
       }
     </script>
     <style>
+      /* General styles */
       * {
         margin: 0;
         padding: 0;
@@ -20,29 +21,27 @@
       }
       body {
         font-family: Arial, sans-serif;
+        height: 100vh;
         display: flex;
-        justify-content: center;
         align-items: center;
         flex-direction: column;
-        height: 100vh;
-      }
-      .container {
-        width: 100%;
-        height: 100vh;
-        padding: 20px;
-        background: #1b242d;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-      }
-      .title {
-        padding-bottom: 20px;
+        background-color: #1b242d;
+        position: relative;
       }
       h1 {
-        text-align: center;
         color: #ffffff;
+        margin-bottom: 10px;
+        text-align: center;
+        padding: 10px 0px;
+      }
+      .myTask {
+        width: 100%;
+        padding: 10px;
       }
       .tabs {
         display: flex;
-        justify-content: space-around;
+        justify-content: center;
+        gap: 5px;
         margin-bottom: 20px;
       }
       .tab-button {
@@ -50,34 +49,17 @@
         cursor: pointer;
         border: 1px solid #ddd;
         background-color: #f0f0f0;
-        border: none;
-        font-size: 0.8rem;
+        border-radius: 5px;
+        font-size: 0.9rem;
       }
       .tab-button.active {
         background-color: #28a745;
         color: white;
       }
-      .task-form {
-        display: flex;
-        gap: 5px;
-        margin-bottom: 10px;
-      }
-      .task-form input,
-      .task-form button {
-        padding: 10px;
-        font-size: 16px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-      }
-      .task-form button {
-        background-color: #dc3545;
-        color: white;
-        cursor: pointer;
-        border: none;
-      }
       #taskList {
         list-style-type: none;
         padding: 0;
+        width: 100%;
       }
       .task-item {
         display: flex;
@@ -90,15 +72,13 @@
       }
       .task-item .task-name {
         flex: 1;
-        padding: 5px;
-        text-align: left;
         font-weight: bold;
         cursor: pointer;
       }
       .task-item .task-name.completed {
         text-decoration: line-through;
         color: #dc3545;
-        background-color: rgba(255, 0, 0, 0.2);
+        background-color: rgb(255, 0, 0, 0.2);
       }
       .task-item input[type="checkbox"] {
         transform: scale(1.2);
@@ -120,139 +100,195 @@
         border-radius: 5px;
         padding: 5px;
       }
-      .task-item button:hover {
-        opacity: 0.9;
+      #addTaskButton {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 50%;
+        font-size: 1.5rem;
+        cursor: pointer;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
       }
-      footer {
-        width: 100%;
-        font-size: 10px;
-        background-color: #1b242d;
-        color: #fff;
-        text-align: center;
-      }
-      footer a {
-        text-decoration: none;
-        color: #28a745;
-      }
-      #install-container {
+      #addTaskPopup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
         border-radius: 10px;
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+      }
+      #addTaskPopup input,
+      #addTaskPopup button {
+        padding: 10px;
+        font-size: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+      #addTaskPopup button {
+        background-color: #28a745;
+        color: white;
+        cursor: pointer;
+      }
+      #closePopup {
+        background-color: #dc3545;
+        color: white;
+      }
+      .weekdays-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .weekdays-container label {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        cursor: pointer;
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <div class="title">
-        <h1>MyTask</h1>
-      </div>
-
+    <section>
+      <h1>MyTask</h1>
       <div class="tabs">
-        <div
-          id="tab-specific"
-          class="tab-button"
-          onclick="switchTab('specific')"
-        >
-          শুক্র/শনি/সোম/বুধ
-        </div>
-        <div id="tab-general" class="tab-button" onclick="switchTab('general')">
-          রবি/মঙ্গল/বৃহঃ
-        </div>
+        <!-- Weekday tabs -->
       </div>
+    </section>
 
-      <div class="task-form">
-        <input type="text" id="taskName" placeholder="Task Name" />
-        <button onclick="addTask()">Add Task</button>
-      </div>
-
+    <section class="myTask">
+      <button id="addTaskButton">+</button>
       <ul id="taskList"></ul>
-    </div>
 
-    <footer>
-      <p>&copy; <a href="https://samrat.top">SAMRAT</a></p>
-    </footer>
+      <!-- Add Task Popup -->
+      <div id="addTaskPopup">
+        <input type="text" id="taskName" placeholder="Task Name" />
+        <div class="weekdays-container">
+          <label><input type="checkbox" value="Sun" /> Sunday</label>
+          <label><input type="checkbox" value="Mon" /> Monday</label>
+          <label><input type="checkbox" value="Tue" /> Tuesday</label>
+          <label><input type="checkbox" value="Wed" /> Wednesday</label>
+          <label><input type="checkbox" value="Thu" /> Thursday</label>
+          <label><input type="checkbox" value="Fri" /> Friday</label>
+          <label><input type="checkbox" value="Sat" /> Saturday</label>
+        </div>
+        <button onclick="saveTask()">Save Task</button>
+        <button id="closePopup">Cancel</button>
+      </div>
+    </section>
 
     <script>
-      const specificDays = ["Fri", "Sat", "Mon", "Wed"];
+      const tasks = JSON.parse(localStorage.getItem("tasks")) || {};
       const currentDay = new Date().toLocaleString("en-us", {
         weekday: "short",
       });
-      const tasks = JSON.parse(localStorage.getItem("tasks")) || {
-        specific: [],
-        general: [],
-      };
-      let activeTab = specificDays.includes(currentDay)
-        ? "specific"
-        : "general";
+      const tabsContainer = document.querySelector(".tabs");
+      const taskList = document.getElementById("taskList");
+      let activeTab = currentDay;
 
-      window.onload = () => {
-        switchTab(activeTab);
-        resetTasksAtMidnight();
-      };
+      const addTaskButton = document.getElementById("addTaskButton");
+      const addTaskPopup = document.getElementById("addTaskPopup");
+      const taskNameInput = document.getElementById("taskName");
+      const closePopupButton = document.getElementById("closePopup");
 
-      function switchTab(tab) {
-        activeTab = tab;
-        document
-          .getElementById("tab-specific")
-          .classList.toggle("active", tab === "specific");
-        document
-          .getElementById("tab-general")
-          .classList.toggle("active", tab === "general");
+      function initializeTabs() {
+        ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].forEach((day) => {
+          const button = document.createElement("button");
+          button.textContent = day;
+          button.className = `tab-button ${day === currentDay ? "active" : ""}`;
+          button.onclick = () => switchTab(day);
+          tabsContainer.appendChild(button);
+        });
         displayTasks();
       }
 
-      function addTask() {
-        const taskName = document.getElementById("taskName").value.trim();
-        if (taskName) {
-          tasks[activeTab].push({ name: taskName, completed: false });
-          localStorage.setItem("tasks", JSON.stringify(tasks));
-          document.getElementById("taskName").value = "";
-          displayTasks();
-        }
+      function switchTab(day) {
+        activeTab = day;
+        document.querySelectorAll(".tab-button").forEach((btn) => {
+          btn.classList.toggle("active", btn.textContent === day);
+        });
+        displayTasks();
       }
 
       function displayTasks() {
-        const taskList = document.getElementById("taskList");
         taskList.innerHTML = "";
-        tasks[activeTab].forEach((task, index) => {
+        const dayTasks = tasks[activeTab] || [];
+        dayTasks.forEach((task, index) => {
           const taskItem = document.createElement("li");
           taskItem.className = "task-item";
-
           taskItem.innerHTML = `
-                    <input type="checkbox" onclick="toggleCompletion('${activeTab}', ${index})" ${
+            <input type="checkbox" onclick="toggleCompletion(${index})" ${
             task.completed ? "checked" : ""
           }>
-                    <div class="task-name ${
-                      task.completed ? "completed" : ""
-                    }" onclick="toggleCompletion('${activeTab}', ${index})">
-                        ${task.name}
-                    </div>
-                    <button onclick="editTask('${activeTab}', ${index})" class="edit">Edit</button>
-                    <button onclick="deleteTask('${activeTab}', ${index})" class="delete">Delete</button>
-                `;
-
+            <div class="task-name ${
+              task.completed ? "completed" : ""
+            }" onclick="toggleCompletion(${index})">${task.name}</div>
+            <button class="edit" onclick="editTask(${index})">Edit</button>
+            <button class="delete" onclick="deleteTask(${index})">Delete</button>
+          `;
           taskList.appendChild(taskItem);
         });
       }
 
-      function toggleCompletion(tab, index) {
-        tasks[tab][index].completed = !tasks[tab][index].completed;
-        localStorage.setItem("tasks", JSON.stringify(tasks));
+      function toggleCompletion(index) {
+        tasks[activeTab][index].completed = !tasks[activeTab][index].completed;
+        saveTasks();
         displayTasks();
       }
 
-      function editTask(tab, index) {
-        const newName = prompt("Edit Task Name:", tasks[tab][index].name);
-        if (newName !== null && newName.trim() !== "") {
-          tasks[tab][index].name = newName.trim();
-          localStorage.setItem("tasks", JSON.stringify(tasks));
+      function editTask(index) {
+        const newName = prompt("Edit Task Name:", tasks[activeTab][index].name);
+        if (newName) {
+          tasks[activeTab][index].name = newName;
+          saveTasks();
           displayTasks();
         }
       }
 
-      function deleteTask(tab, index) {
-        tasks[tab].splice(index, 1);
-        localStorage.setItem("tasks", JSON.stringify(tasks));
+      function deleteTask(index) {
+        tasks[activeTab].splice(index, 1);
+        saveTasks();
         displayTasks();
       }
+
+      function saveTasks() {
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+      }
+
+      function saveTask() {
+        const taskName = taskNameInput.value.trim();
+        const selectedDays = Array.from(
+          document.querySelectorAll(".weekdays-container input:checked")
+        ).map((checkbox) => checkbox.value);
+        if (taskName && selectedDays.length) {
+          selectedDays.forEach((day) => {
+            tasks[day] = tasks[day] || [];
+            tasks[day].push({ name: taskName, completed: false });
+          });
+          saveTasks();
+          taskNameInput.value = ""; // Clear input field
+          document
+            .querySelectorAll(".weekdays-container input:checked")
+            .forEach((checkbox) => (checkbox.checked = false)); // Clear checkboxes
+          addTaskPopup.style.display = "none";
+          displayTasks();
+        }
+      }
+
+      addTaskButton.addEventListener("click", () => {
+        addTaskPopup.style.display = "flex";
+      });
+
+      closePopupButton.addEventListener("click", () => {
+        addTaskPopup.style.display = "none";
+      });
 
       function resetTasksIfDateChanged() {
         const lastResetDate = localStorage.getItem("lastResetDate");
@@ -261,9 +297,9 @@
         // If there's no last reset date or the date has changed
         if (lastResetDate !== today) {
           // Reset task completion statuses
-          tasks.specific.forEach((task) => (task.completed = false));
-          tasks.general.forEach((task) => (task.completed = false));
-
+          for (const key in tasks) {
+            tasks[key].forEach((e) => (e.completed = false));
+          }
           // Update the tasks in local storage
           localStorage.setItem("tasks", JSON.stringify(tasks));
 
@@ -275,10 +311,9 @@
       // Call this function on page load
       window.onload = () => {
         resetTasksIfDateChanged(); // Ensure tasks are reset if the date has changed
-        switchTab(activeTab); // Display tasks for the active tab
       };
 
-      displayTasks();
+      initializeTabs();
     </script>
     <script>
       let deferredPrompt;
