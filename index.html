@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MyTask</title>
     <link rel="manifest" href="manifest.json" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"
+      integrity="sha512-Eezs+g9Lq4TCCq0wae01s9PuNWzHYoCMkE97e2qdkYthpI0pzC3UGB03lgEHn2XM85hDOUF6qgqqszs+iXU4UA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script>
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker
@@ -165,7 +175,7 @@
 
     <section class="myTask">
       <button id="addTaskButton">+</button>
-      <ul id="taskList"></ul>
+      <ul id="taskList" class="drag-area"></ul>
 
       <!-- Add Task Popup -->
       <div id="addTaskPopup">
@@ -324,6 +334,37 @@
       window.onload = () => {
         resetTasksIfDateChanged(); // Ensure tasks are reset if the date has changed
       };
+
+      //--------------------------------------------------------------------------------
+      const dragArea = document.querySelector(".drag-area");
+      function saveSorted() {
+        const items = JSON.parse(localStorage.getItem("tasks"));
+        const dudu = Array.from(dragArea.children).map((task) => {
+          return task.innerText.split("\n")[0]; // retrieve data after sorting
+        });
+
+        let arr = [];
+
+        dudu.forEach((e) => {
+          items[activeTab].forEach((f) => {
+            if (f.name == e) {
+              arr.push(f);
+            }
+          });
+        });
+
+        items[activeTab] = arr;
+
+        localStorage.setItem("tasks", JSON.stringify(items));
+        // location.reload();
+      }
+
+      // Initialize SortableJS
+      new Sortable(dragArea, {
+        animation: 300,
+        onEnd: saveSorted, // Save tasks after sorting
+      });
+      //--------------------------------------------------------------------------------
 
       initializeTabs();
     </script>
