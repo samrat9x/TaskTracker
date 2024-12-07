@@ -1,4 +1,4 @@
-const cacheName = "complement-cache-v1";
+const cacheName = "complement-cache-v2";
 const assetsToCache = [
   "index.html",
   "manifest.json",
