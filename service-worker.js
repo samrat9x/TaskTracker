@@ -1,4 +1,4 @@
-const cacheName = "complement-cache-v3";
+const cacheName = "complement-cache-v1";
 const assetsToCache = [
   "index.html",
   "manifest.json",
@@ -20,14 +20,4 @@ self.addEventListener("fetch", (event) => {
       return response || fetch(event.request);
     })
   );
-});
-
-self.addEventListener("install", (event) => {
-  // Force the waiting service worker to become active
-  self.skipWaiting();
-});
-
-self.addEventListener("activate", (event) => {
-  // Claim control of the current page
-  event.waitUntil(clients.claim());
 });
