@@ -22,14 +22,12 @@ self.addEventListener("fetch", (event) => {
   );
 });
 
+self.addEventListener("install", (event) => {
+  // Force the waiting service worker to become active
+  self.skipWaiting();
+});
+
 self.addEventListener("activate", (event) => {
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames
-          .filter((cache) => cache !== CACHE_NAME) // Keep only the new cache
-          .map((cache) => caches.delete(cache))
-      );
-    })
-  );
+  // Claim control of the current page
+  event.waitUntil(clients.claim());
 });
