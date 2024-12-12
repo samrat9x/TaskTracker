@@ -157,19 +157,11 @@
       #time-container {
         text-align: center;
         color: #ddd;
-        position: relative;
       }
       .timingSection {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-      }
-      #time-container::before {
-        position: absolute;
-        content: "";
-        width: 90px;
-        height: 20px;
-        background-color: #1b242d;
       }
     </style>
   </head>
@@ -222,7 +214,6 @@
     <script>
       // JavaScript to display only the date
       const dateContainer = document.getElementById("date-container");
-      const timeContainer = document.getElementById("time-container");
       const today = new Date();
 
       // Format: DD/MM/YYYY
@@ -230,14 +221,36 @@
         today.getMonth() + 1
       }/${today.getFullYear()}`;
       dateContainer.textContent = formattedDate;
+    </script>
+    <script>
+      // JavaScript to display only the time
+      function updateClock() {
+        const timeContainer = document.getElementById("time-container");
+        const now = new Date();
 
-      setInterval((e) => {
-        timeContainer.textContent = new Date().toLocaleDateString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-        });
-      }, 1000);
+        // Get hours, minutes, and seconds
+        let hours = now.getHours();
+        const minutes = now.getMinutes();
+        const seconds = now.getSeconds();
+
+        // Determine AM or PM
+        const amPm = hours >= 12 ? "PM" : "AM";
+
+        // Convert to 12-hour format
+        hours = hours % 12 || 12;
+
+        // Format the time with leading zeroes
+        const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
+          .toString()
+          .padStart(2, "0")}:${seconds.toString().padStart(2, "0")} ${amPm}`;
+
+        // Update the clock element
+        timeContainer.innerText = formattedTime;
+      }
+
+      // Update the clock every second
+      setInterval(updateClock, 1000);
+      updateClock(); // Initial call to display the time immediately
     </script>
     <script>
       const tasks = JSON.parse(localStorage.getItem("tasks")) || {};
