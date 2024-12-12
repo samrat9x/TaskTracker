@@ -153,9 +153,23 @@
         gap: 5px;
         cursor: pointer;
       }
-      #date-container {
+      #date-container,
+      #time-container {
         text-align: center;
         color: #ddd;
+        position: relative;
+      }
+      .timingSection {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+      #time-container::before {
+        position: absolute;
+        content: "";
+        width: 84px;
+        height: 20px;
+        background-color: #1b242d;
       }
     </style>
   </head>
@@ -165,7 +179,10 @@
       <div class="tabs">
         <!-- Weekday tabs -->
       </div>
-      <div id="date-container"></div>
+      <div class="timingSection">
+        <div id="date-container"></div>
+        <div id="time-container"></div>
+      </div>
     </section>
 
     <section class="myTask">
@@ -205,6 +222,7 @@
     <script>
       // JavaScript to display only the date
       const dateContainer = document.getElementById("date-container");
+      const timeContainer = document.getElementById("time-container");
       const today = new Date();
 
       // Format: DD/MM/YYYY
@@ -212,6 +230,14 @@
         today.getMonth() + 1
       }/${today.getFullYear()}`;
       dateContainer.textContent = formattedDate;
+
+      setInterval((e) => {
+        timeContainer.textContent = new Date().toLocaleDateString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        });
+      }, 1000);
     </script>
     <script>
       const tasks = JSON.parse(localStorage.getItem("tasks")) || {};
