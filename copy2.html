@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MyTask</title>
+    <link rel="manifest" href="manifest.json" />
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("service-worker.js")
+          .then(() => console.log("Service Worker Registered"));
+      }
+    </script>
+    <style>
+      /* General styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        background-color: #1b242d;
+        position: relative;
+      }
+      h1 {
+        color: #ffffff;
+        margin-bottom: 10px;
+        text-align: center;
+        padding: 10px 0px;
+      }
+      .myTask {
+        width: 100%;
+        padding: 10px;
+      }
+      .tabs {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+        margin-bottom: 20px;
+      }
+      .tab-button {
+        padding: 10px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+        font-size: 0.9rem;
+      }
+      .tab-button.active {
+        background-color: #28a745;
+        color: white;
+      }
+      #taskList {
+        list-style-type: none;
+        padding: 0;
+        width: 100%;
+      }
+      .task-item {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+        padding: 10px;
+        background: #f8f9fa;
+        border-radius: 5px;
+        gap: 10px;
+      }
+      .task-item .task-name {
+        flex: 1;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .task-item .task-name.completed {
+        text-decoration: line-through;
+        color: #dc3545;
+        background-color: rgb(255, 0, 0, 0.2);
+      }
+      .task-item input[type="checkbox"] {
+        transform: scale(1.2);
+        cursor: pointer;
+      }
+      .task-item button.edit {
+        background-color: #17a2b8;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        padding: 5px;
+      }
+      .task-item button.delete {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        padding: 5px;
+      }
+      #addTaskButton {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 50%;
+        font-size: 1.5rem;
+        cursor: pointer;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+      }
+      #addTaskPopup {
+        position: fixed;
+        bottom: 2%;
+        left: 2%;
+        /* transform: translate(-50%, -50%); */
+        background-color: white;
+        padding: 20px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+      }
+      #addTaskPopup input,
+      #addTaskPopup button {
+        padding: 10px;
+        font-size: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+      #addTaskPopup button {
+        background-color: #28a745;
+        color: white;
+        cursor: pointer;
+      }
+      #closePopup {
+        background-color: #dc3545;
+        color: white;
+      }
+      .weekdays-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .weekdays-container label {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        cursor: pointer;
+      }
+      #date-container,
+      #time-container {
+        text-align: center;
+        color: #ddd;
+      }
+      .timingSection {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <h1>MyTask</h1>
+      <div class="tabs">
+        <!-- Weekday tabs -->
+      </div>
+      <div class="timingSection">
+        <div id="date-container"></div>
+        <div id="time-container"></div>
+      </div>
+    </section>
+
+    <section class="myTask">
+      <button id="addTaskButton">+</button>
+      <ul id="taskList" class="drag-area"></ul>
+
+      <!-- Add Task Popup -->
+      <div id="addTaskPopup">
+        <input type="text" id="taskName" placeholder="Task Name" />
+        <div class="weekdays-container">
+          <label><input type="checkbox" value="Sun" /> Sunday</label>
+          <label><input type="checkbox" value="Mon" /> Monday</label>
+          <label><input type="checkbox" value="Tue" /> Tuesday</label>
+          <label><input type="checkbox" value="Wed" /> Wednesday</label>
+          <label><input type="checkbox" value="Thu" /> Thursday</label>
+          <label><input type="checkbox" value="Fri" /> Friday</label>
+          <label><input type="checkbox" value="Sat" /> Saturday</label>
+        </div>
+        <button onclick="saveTask()">Save Task</button>
+        <button id="closePopup">Cancel</button>
+      </div>
+    </section>
+    <p
+      style="
+        text-align: center;
+        background-color: #1b242d;
+        color: #28a745;
+        font-size: 10px;
+        padding: 50px;
+      "
+    >
+      &copy;
+      <a href="https://samrat.top" style="text-decoration: none; color: #28a745"
+        >SAMRAT</a
+      >
+    </p>
+    <script>
+      const dragArea = document.querySelector(".drag-area");
+
+      function saveSorted() {
+        const items = JSON.parse(localStorage.getItem("tasks"));
+        const dudu = Array.from(dragArea.children).map((task) => {
+          return task.innerText.split("\n")[0]; // retrieve data after sorting
+        });
+
+        let arr = [];
+
+        dudu.forEach((e) => {
+          items[activeTab].forEach((f) => {
+            if (f.name == e) {
+              arr.push(f);
+            }
+          });
+        });
+
+        items[activeTab] = arr;
+
+        localStorage.setItem("tasks", JSON.stringify(items));
+        // location.reload();
+      }
+
+      // Initialize SortableJS
+      new Sortable(dragArea, {
+        animation: 300,
+        onEnd: saveSorted, // Save tasks after sorting
+      });
+    </script>
+    <script>
+      // JavaScript to display only the date
+      const dateContainer = document.getElementById("date-container");
+      const today = new Date();
+
+      // Format: DD/MM/YYYY
+      const formattedDate = `${today.getDate()}/${
+        today.getMonth() + 1
+      }/${today.getFullYear()}`;
+      dateContainer.textContent = formattedDate;
+    </script>
+    <script>
+      // JavaScript to display only the time
+      function updateClock() {
+        const timeContainer = document.getElementById("time-container");
+        const now = new Date();
+
+        // Get hours, minutes, and seconds
+        let hours = now.getHours();
+        const minutes = now.getMinutes();
+        const seconds = now.getSeconds();
+
+        // Determine AM or PM
+        const amPm = hours >= 12 ? "PM" : "AM";
+
+        // Convert to 12-hour format
+        hours = hours % 12 || 12;
+
+        // Format the time with leading zeroes
+        const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
+          .toString()
+          .padStart(2, "0")}:${seconds.toString().padStart(2, "0")} ${amPm}`;
+
+        // Update the clock element
+        timeContainer.innerText = formattedTime;
+      }
+
+      // Update the clock every second
+      setInterval(updateClock, 1000);
+      updateClock(); // Initial call to display the time immediately
+    </script>
+    <script>
+      const tasks = JSON.parse(localStorage.getItem("tasks")) || {};
+      const currentDay = new Date().toLocaleString("en-us", {
+        weekday: "short",
+      });
+      const tabsContainer = document.querySelector(".tabs");
+      const taskList = document.getElementById("taskList");
+      let activeTab = currentDay;
+
+      const addTaskButton = document.getElementById("addTaskButton");
+      const addTaskPopup = document.getElementById("addTaskPopup");
+      const taskNameInput = document.getElementById("taskName");
+      const closePopupButton = document.getElementById("closePopup");
+
+      function initializeTabs() {
+        ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].forEach((day) => {
+          const button = document.createElement("button");
+          button.textContent = day;
+          button.className = `tab-button ${day === currentDay ? "active" : ""}`;
+          button.onclick = () => switchTab(day);
+          tabsContainer.appendChild(button);
+        });
+        displayTasks();
+      }
+
+      function switchTab(day) {
+        activeTab = day;
+        document.querySelectorAll(".tab-button").forEach((btn) => {
+          btn.classList.toggle("active", btn.textContent === day);
+        });
+        displayTasks();
+      }
+
+      function displayTasks() {
+        taskList.innerHTML = "";
+        const dayTasks = tasks[activeTab] || [];
+        dayTasks.forEach((task, index) => {
+          const taskItem = document.createElement("li");
+          taskItem.className = "task-item";
+          taskItem.innerHTML = `
+            <input type="checkbox" onclick="toggleCompletion(${index})" ${
+            task.completed ? "checked" : ""
+          }>
+            <div class="task-name ${
+              task.completed ? "completed" : ""
+            }" onclick="toggleCompletion(${index})">${task.name}</div>
+            <button class="edit" onclick="editTask(${index})">Edit</button>
+            <button class="delete" onclick="deleteTask(${index})">Delete</button>
+          `;
+          taskList.appendChild(taskItem);
+        });
+      }
+
+      function toggleCompletion(index) {
+        tasks[activeTab][index].completed = !tasks[activeTab][index].completed;
+        saveTasks();
+        displayTasks();
+      }
+
+      function editTask(index) {
+        const newName = prompt("Edit Task Name:", tasks[activeTab][index].name);
+        if (newName) {
+          tasks[activeTab][index].name = newName;
+          saveTasks();
+          displayTasks();
+        }
+      }
+
+      function deleteTask(index) {
+        tasks[activeTab].splice(index, 1);
+        saveTasks();
+        displayTasks();
+      }
+
+      function saveTasks() {
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+      }
+
+      function saveTask() {
+        const taskName = taskNameInput.value.trim();
+        const selectedDays = Array.from(
+          document.querySelectorAll(".weekdays-container input:checked")
+        ).map((checkbox) => checkbox.value);
+        if (taskName && selectedDays.length) {
+          selectedDays.forEach((day) => {
+            tasks[day] = tasks[day] || [];
+            tasks[day].push({ name: taskName, completed: false });
+          });
+          saveTasks();
+          taskNameInput.value = ""; // Clear input field
+          document
+            .querySelectorAll(".weekdays-container input:checked")
+            .forEach((checkbox) => (checkbox.checked = false)); // Clear checkboxes
+          addTaskPopup.style.display = "none";
+          displayTasks();
+        }
+      }
+
+      addTaskButton.addEventListener("click", () => {
+        addTaskPopup.style.display = "flex";
+      });
+
+      closePopupButton.addEventListener("click", () => {
+        addTaskPopup.style.display = "none";
+      });
+
+      function resetTasksIfDateChanged() {
+        const lastResetDate = localStorage.getItem("lastResetDate");
+        const today = new Date().toLocaleDateString(); // Get current date in 'MM/DD/YYYY' format
+
+        // If there's no last reset date or the date has changed
+        if (lastResetDate !== today) {
+          // Reset task completion statuses
+          for (const key in tasks) {
+            tasks[key].forEach((e) => (e.completed = false));
+          }
+          // Update the tasks in local storage
+          localStorage.setItem("tasks", JSON.stringify(tasks));
+
+          // Save the new reset date
+          localStorage.setItem("lastResetDate", today);
+        }
+      }
+
+      // Call this function on page load
+      window.onload = () => {
+        resetTasksIfDateChanged(); // Ensure tasks are reset if the date has changed
+      };
+
+      initializeTabs();
+    </script>
+    <script>
+      let deferredPrompt;
+
+      window.addEventListener("beforeinstallprompt", (e) => {
+        // Prevent the mini-infobar from appearing on mobile
+        e.preventDefault();
+        // Stash the event so it can be triggered later.
+        deferredPrompt = e;
+
+        // Create a container for the buttons
+        const installContainer = document.createElement("div");
+        installContainer.id = "install-container";
+        installContainer.style.position = "fixed";
+        installContainer.style.bottom = "20px";
+        installContainer.style.right = "20px";
+        installContainer.style.padding = "10px";
+        installContainer.style.backgroundColor = "#ffffff";
+        installContainer.style.border = "1px solid #ccc";
+        installContainer.style.boxShadow = "0px 0px 10px rgba(0, 0, 0, 0.1)";
+
+        // Create the Install button
+        const installButton = document.createElement("button");
+        installButton.textContent = "Install App";
+        installButton.style.marginRight = "10px";
+        installContainer.appendChild(installButton);
+
+        // Create the Hide button
+        const hideButton = document.createElement("button");
+        hideButton.textContent = "Hide";
+        installContainer.appendChild(hideButton);
+
+        document.body.appendChild(installContainer);
+
+        installButton.addEventListener("click", () => {
+          // Show the install prompt
+          deferredPrompt.prompt();
+          // Wait for the user to respond to the prompt
+          deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === "accepted") {
+              console.log("User accepted the install prompt");
+            } else {
+              console.log("User dismissed the install prompt");
+            }
+            deferredPrompt = null;
+            // Remove the install container after the user makes a choice
+            installContainer.remove();
+          });
+        });
+
+        hideButton.addEventListener("click", () => {
+          // Hide the install container
+          installContainer.style.display = "none";
+        });
+      });
+    </script>
+  </body>
+</html>
