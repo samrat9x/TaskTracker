@@ -1,0 +1,150 @@
+/* General styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: #1b242d;
+  position: relative;
+}
+h1 {
+  color: #ffffff;
+  margin-bottom: 10px;
+  text-align: center;
+  padding: 10px 0px;
+}
+.myTask {
+  width: 100%;
+  padding: 10px;
+}
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 20px;
+}
+.tab-button {
+  padding: 10px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  font-size: 0.9rem;
+}
+.tab-button.active {
+  background-color: #28a745;
+  color: white;
+}
+#taskList {
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+}
+.task-item {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 5px;
+  gap: 10px;
+}
+.task-item .task-name {
+  flex: 1;
+  font-weight: bold;
+  cursor: pointer;
+}
+.task-item .task-name.completed {
+  text-decoration: line-through;
+  color: #dc3545;
+  background-color: rgb(255, 0, 0, 0.2);
+}
+.task-item input[type="checkbox"] {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+.task-item button.edit {
+  background-color: #17a2b8;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 5px;
+}
+.task-item button.delete {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 5px;
+}
+#addTaskButton {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+#addTaskPopup {
+  position: fixed;
+  bottom: 2%;
+  left: 2%;
+  /* transform: translate(-50%, -50%); */
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+}
+#addTaskPopup input,
+#addTaskPopup button {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+#addTaskPopup button {
+  background-color: #28a745;
+  color: white;
+  cursor: pointer;
+}
+#closePopup {
+  background-color: #dc3545;
+  color: white;
+}
+.weekdays-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.weekdays-container label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+#date-container,
+#time-container {
+  text-align: center;
+  color: #ddd;
+}
+.timingSection {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
