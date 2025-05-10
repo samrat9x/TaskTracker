@@ -45,7 +45,7 @@ function displayTasks() {
               task.completed ? "completed" : ""
             }" onclick="toggleCompletion(${index})">${task.name}</div>
             <button class="edit" onclick="editTask(${index})">Edit</button>
-            <button class="delete" onpointerdown="deleteTask(${index})">Delete</button>
+            <button class="delete" onclick="deleteTask(${index})">Delete</button>
           `;
     taskList.appendChild(taskItem);
   });
