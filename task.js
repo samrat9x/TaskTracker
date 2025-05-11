@@ -166,6 +166,8 @@ function saveSorted() {
 new Sortable(dragArea, {
   animation: 300,
   onEnd: saveSorted, // Save tasks after sorting
+  delay: 100, // Delay in milliseconds
+  delayOnTouchOnly: true, // Apply delay only on touch devices
 });
 //--------------------------------------------------------------------------------
 
