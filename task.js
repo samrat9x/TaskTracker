@@ -72,16 +72,7 @@ function editTask(index) {
 } // Edit the name of a task
 //--------------------------------------------------------------------------------
 
-let a = 0;
 function deleteTask(index) {
-  if (a) {
-    document.body.style.backgroundColor = "white"; // Reset background color
-    a--;
-  } else {
-    document.body.style.backgroundColor = "red"; // Change background color to red
-    a++;
-  }
-
   tasks[activeTab].splice(index, 1);
   saveTasks();
   displayTasks();
