@@ -1,42 +1,45 @@
-let tasks = JSON.parse(localStorage.getItem("tasks")) || {};
+// Every comments are written at the end of the statement
+
+let tasks = JSON.parse(localStorage.getItem("tasks")) || {}; // Initialize tasks from local storage. If no tasks are found, initialize with an empty object
 const currentDay = new Date().toLocaleString("en-us", {
   weekday: "short",
-});
-const tabsContainer = document.querySelector(".tabs");
-const taskList = document.getElementById("taskList");
-let activeTab = currentDay;
+}); // Get the current day in short format (e.g., "Mon", "Tue", etc.)
+const tabsContainer = document.querySelector(".tabs"); // Get the container for the tabs
+const taskList = document.getElementById("taskList"); // Get the task list element
+let activeTab = currentDay; // Set the active tab to the current day
 
-const addTaskButton = document.getElementById("addTaskButton");
-const addTaskPopup = document.getElementById("addTaskPopup");
-const taskNameInput = document.getElementById("taskName");
-const closePopupButton = document.getElementById("closePopup");
+const addTaskButton = document.getElementById("addTaskButton"); // Get the button to add a new task
+const addTaskPopup = document.getElementById("addTaskPopup"); // Get the popup for adding a new task
+const taskNameInput = document.getElementById("taskName"); // Get the input field for the task name
+const closePopupButton = document.getElementById("closePopup"); // Get the button to close the popup
 
 function initializeTabs() {
   ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].forEach((day) => {
-    const button = document.createElement("button");
-    button.textContent = day;
-    button.className = `tab-button ${day === currentDay ? "active" : ""}`;
-    button.onclick = () => switchTab(day);
-    tabsContainer.appendChild(button);
-  });
-  displayTasks();
-}
+    const button = document.createElement("button"); // Create a new button for each day of the week
+    button.textContent = day; // Set the button text to the day of the week
+    button.className = `tab-button ${day === currentDay ? "active" : ""}`; // Set the button text and class
+    button.onclick = () => switchTab(day); // Set the onclick event to switch tabs
+    tabsContainer.appendChild(button); // Append the button to the tabs container
+  }); // Create buttons for each day of the week
+  displayTasks(); // Display tasks for the current day
+} // Initialize the tabs with the days of the week
 
 function switchTab(day) {
-  activeTab = day;
+  activeTab = day; // Set the active tab to the selected day
   document.querySelectorAll(".tab-button").forEach((btn) => {
-    btn.classList.toggle("active", btn.textContent === day);
-  });
-  displayTasks();
-}
+    btn.classList.toggle("active", btn.textContent === day); // Toggle the active class based on the selected day
+  }); // Switch the active class to the selected tab
+  displayTasks(); // Display tasks for the selected day
+} // Switch to the selected tab and display tasks for that day
+//--------------------------------------------------------------------------------
 
 function displayTasks() {
-  taskList.innerHTML = "";
-  tasks = JSON.parse(localStorage.getItem("tasks")) || {};
-  const dayTasks = tasks[activeTab] || [];
+  taskList.innerHTML = ""; // Clear the task list before displaying new tasks
+  tasks = JSON.parse(localStorage.getItem("tasks")) || {}; // Update tasks from local storage
+  const dayTasks = tasks[activeTab] || []; // Get tasks for the active tab or an empty array if none exist
   dayTasks.forEach((task, index) => {
-    const taskItem = document.createElement("li");
-    taskItem.className = "task-item";
+    const taskItem = document.createElement("li"); // Create a new list item for each task
+    taskItem.className = "task-item"; // Set the class for the task item
     taskItem.innerHTML = `
             <input type="checkbox" onclick="toggleCompletion(${index})" ${
       task.completed ? "checked" : ""
@@ -46,16 +49,18 @@ function displayTasks() {
             }" onclick="toggleCompletion(${index})">${task.name}</div>
             <button class="edit" onclick="editTask(${index})">Edit</button>
             <button class="delete" onclick="deleteTask(${index})">Delete</button>
-          `;
-    taskList.appendChild(taskItem);
-  });
-}
+          `; // Create the inner HTML for the task item
+    taskList.appendChild(taskItem); // Append the task item to the task list
+  }); // Append each task to the task list
+} // Display tasks for the active tab
+//--------------------------------------------------------------------------------
 
 function toggleCompletion(index) {
   tasks[activeTab][index].completed = !tasks[activeTab][index].completed;
   saveTasks();
   displayTasks();
-}
+} // Toggle the completion status of a task
+//--------------------------------------------------------------------------------
 
 function editTask(index) {
   const newName = prompt("Edit Task Name:", tasks[activeTab][index].name);
@@ -64,17 +69,20 @@ function editTask(index) {
     saveTasks();
     displayTasks();
   }
-}
+} // Edit the name of a task
+//--------------------------------------------------------------------------------
 
 function deleteTask(index) {
   tasks[activeTab].splice(index, 1);
   saveTasks();
   displayTasks();
-}
+} // Delete a task from the list
+//--------------------------------------------------------------------------------
 
 function saveTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
-}
+} // Save tasks to local storage
+//--------------------------------------------------------------------------------
 
 function saveTask() {
   const taskName = taskNameInput.value.trim();
@@ -94,15 +102,17 @@ function saveTask() {
     addTaskPopup.style.display = "none";
     displayTasks();
   }
-}
+} // Save a new task to the list
+//--------------------------------------------------------------------------------
 
 addTaskButton.addEventListener("click", () => {
   addTaskPopup.style.display = "flex";
-});
+}); // Show the popup to add a new task
 
 closePopupButton.addEventListener("click", () => {
   addTaskPopup.style.display = "none";
-});
+}); // Close the popup when the close button is clicked
+//--------------------------------------------------------------------------------
 
 function resetTasksIfDateChanged() {
   const lastResetDate = localStorage.getItem("lastResetDate");
@@ -115,17 +125,18 @@ function resetTasksIfDateChanged() {
       tasks[key].forEach((e) => (e.completed = false));
     }
     // Update the tasks in local storage
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+    localStorage.setItem("tasks", JSON.stringify(tasks)); // Save the updated tasks
 
     // Save the new reset date
-    localStorage.setItem("lastResetDate", today);
+    localStorage.setItem("lastResetDate", today); // Update the last reset date
   }
-}
+} // Reset tasks if the date has changed
+//--------------------------------------------------------------------------------
 
 // Call this function on page load
 window.onload = () => {
   resetTasksIfDateChanged(); // Ensure tasks are reset if the date has changed
-};
+}; // Call the function to reset tasks if the date has changed
 
 //--------------------------------------------------------------------------------
 const dragArea = document.querySelector(".drag-area");
