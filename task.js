@@ -73,6 +73,15 @@ function editTask(index) {
 //--------------------------------------------------------------------------------
 
 function deleteTask(index) {
+  let a = 0;
+  if (a) {
+    document.body.style.backgroundColor = "white"; // Reset background color
+    a--;
+  } else {
+    document.body.style.backgroundColor = "red"; // Change background color to red
+    a++;
+  }
+
   tasks[activeTab].splice(index, 1);
   saveTasks();
   displayTasks();
