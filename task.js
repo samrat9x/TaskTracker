@@ -72,8 +72,8 @@ function editTask(index) {
 } // Edit the name of a task
 //--------------------------------------------------------------------------------
 
+let a = 0;
 function deleteTask(index) {
-  let a = 0;
   if (a) {
     document.body.style.backgroundColor = "white"; // Reset background color
     a--;
