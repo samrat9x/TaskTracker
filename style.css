@@ -54,6 +54,8 @@ h1 {
   background: #f8f9fa;
   border-radius: 5px;
   gap: 10px;
+  z-index: 999;
+  position: relative;
 }
 .task-item .task-name {
   flex: 1;
