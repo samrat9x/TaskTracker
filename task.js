@@ -65,7 +65,7 @@ function toggleCompletion(index) {
 function editTask(index) {
   const newName = prompt("Edit Task Name:", tasks[activeTab][index].name);
   if (newName) {
-    tasks[activeTab][index].name = newName;
+    tasks[activeTab][index].name = newName; // Update the task name
     saveTasks();
     displayTasks();
   }
@@ -80,7 +80,7 @@ function deleteTask(index) {
 //--------------------------------------------------------------------------------
 
 function saveTasks() {
-  localStorage.setItem("tasks", JSON.stringify(tasks));
+  localStorage.setItem("tasks", JSON.stringify(tasks)); // Save tasks to local storage
 } // Save tasks to local storage
 //--------------------------------------------------------------------------------
 
@@ -88,25 +88,25 @@ function saveTask() {
   const taskName = taskNameInput.value.trim();
   const selectedDays = Array.from(
     document.querySelectorAll(".weekdays-container input:checked")
-  ).map((checkbox) => checkbox.value);
+  ).map((checkbox) => checkbox.value); // Get selected days from checkboxes
   if (taskName && selectedDays.length) {
     selectedDays.forEach((day) => {
-      tasks[day] = tasks[day] || [];
-      tasks[day].push({ name: taskName, completed: false });
+      tasks[day] = tasks[day] || []; // Initialize the day if it doesn't exist
+      tasks[day].push({ name: taskName, completed: false }); // Add the new task to the selected days
     });
     saveTasks();
     taskNameInput.value = ""; // Clear input field
     document
       .querySelectorAll(".weekdays-container input:checked")
       .forEach((checkbox) => (checkbox.checked = false)); // Clear checkboxes
-    addTaskPopup.style.display = "none";
+    addTaskPopup.style.display = "none"; // Hide the popup
     displayTasks();
   }
 } // Save a new task to the list
 //--------------------------------------------------------------------------------
 
 addTaskButton.addEventListener("click", () => {
-  addTaskPopup.style.display = "flex";
+  addTaskPopup.style.display = "flex"; // Show the popup to add a new task
 }); // Show the popup to add a new task
 
 closePopupButton.addEventListener("click", () => {
