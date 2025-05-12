@@ -51,7 +51,7 @@ function displayTasks() {
             <button class="delete">Delete</button>
           `; // Create the inner HTML for the task item
     // -------------------------------------------------------------------------------
-    taskItem.addEventListener("touchstart", (e) => {
+    taskItem.addEventListener("pointerdown", (e) => {
       if (e.target.innerText === "Delete") {
         e.stopPropagation(); // Prevent the event from bubbling up
         console.log("Delete button clicked", index);
