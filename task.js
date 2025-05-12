@@ -53,7 +53,7 @@ function displayTasks() {
     // -------------------------------------------------------------------------------
     taskItem.addEventListener("touchstart", (e) => {
       if (e.target.classList.contains("delete")) {
-        console.log("Delete button clicked");
+        console.log("Delete button clicked", index);
         deleteTask(index); // Call the delete function if the delete button is clicked
       }
     }); // Add event listener to the task item for debugging
