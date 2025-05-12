@@ -50,7 +50,7 @@ function displayTasks() {
             <button class="edit" onclick="editTask(${index})">Edit</button>
             <button class="delete" onclick="deleteTask(${index})">Delete</button>
           `; // Create the inner HTML for the task item
-
+    // -------------------------------------------------------------------------------
     const deleteBtn = taskItem.querySelector(".delete");
     if (deleteBtn) {
       deleteBtn.addEventListener("pointerdown", (e) => {
@@ -58,6 +58,7 @@ function displayTasks() {
         e.stopPropagation(); // Prevent the click event from bubbling up to the task item
       });
     } // Prevent the delete button from triggering the task item click event
+    // -------------------------------------------------------------------------------
 
     taskList.appendChild(taskItem); // Append the task item to the task list
   }); // Append each task to the task list
