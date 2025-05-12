@@ -50,10 +50,6 @@ function displayTasks() {
             <button class="edit" onclick="editTask(${index})">Edit</button>
             <button class="delete" onclick="deleteTask(${index})">Delete</button>
           `; // Create the inner HTML for the task item
-
-    document.querySelector(".delete").addEventListener("click", (e) => {
-      e.stopPropagation();
-    }); // Stop propagation for the delete button
     taskList.appendChild(taskItem); // Append the task item to the task list
   }); // Append each task to the task list
 } // Display tasks for the active tab
