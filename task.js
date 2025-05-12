@@ -52,7 +52,7 @@ function displayTasks() {
           `; // Create the inner HTML for the task item
     // -------------------------------------------------------------------------------
     taskItem.addEventListener("touchstart", (e) => {
-      if (e.target.classList.contains("delete")) {
+      if (e.target.innerText === "Delete") {
         console.log("Delete button clicked", index);
         deleteTask(index); // Call the delete function if the delete button is clicked
       }
