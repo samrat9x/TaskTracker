@@ -47,7 +47,7 @@ function displayTasks() {
             <div class="task-name ${
               task.completed ? "completed" : ""
             }" onclick="toggleCompletion(${index})">${task.name}</div>
-            <button class="edit" onclick="editTask(${index})">Edit</button>
+            <button class="edit">Edit</button>
             <button class="delete">Delete</button>
           `; // Create the inner HTML for the task item
     // -------------------------------------------------------------------------------
@@ -56,6 +56,10 @@ function displayTasks() {
         // e.stopPropagation(); // Prevent the event from bubbling up
         console.log("Delete button clicked", index); // Debugging line
         deleteTask(index); // Call the delete function if the delete button is clicked
+      }
+      if (e.target.innerText === "Edit") {
+        console.log("Edit button clicked", index); // Debugging line
+        editTask(index); // Call the edit function if the edit button is clicked
       }
     }); // Add event listener to the task item for debugging
     // -------------------------------------------------------------------------------
@@ -105,6 +109,7 @@ function saveTask() {
       tasks[day].push({ name: taskName, completed: false }); // Add the new task to the selected days
     });
     saveTasks();
+    shadowPopup.style.display = "none"; // Hide the shadow popup when clicking outside
     taskNameInput.value = ""; // Clear input field
     document
       .querySelectorAll(".weekdays-container input:checked")
@@ -120,7 +125,8 @@ addTaskButton.addEventListener("click", () => {
 }); // Show the popup to add a new task
 
 closePopupButton.addEventListener("click", () => {
-  addTaskPopup.style.display = "none";
+  addTaskPopup.style.display = "none"; // Hide the popup when the close button is clicked
+  shadowPopup.style.display = "none"; // Hide the popup when the close button is clicked
 }); // Close the popup when the close button is clicked
 //--------------------------------------------------------------------------------
 
@@ -180,3 +186,17 @@ new Sortable(dragArea, {
 //--------------------------------------------------------------------------------
 
 initializeTabs();
+
+// Shadow popup when click + sign
+const shadowPopup = document.querySelector(".shadow-popup");
+addTaskButton.addEventListener("click", () => {
+  shadowPopup.style.display = "block"; // Show the shadow popup
+}); // Show the shadow popup when the add task button is clicked
+shadowPopup.addEventListener("click", (e) => {
+  if (e.target === shadowPopup) {
+    shadowPopup.style.display = "none"; // Hide the shadow popup when clicking outside
+    closePopupButton.click(); // Close the popup
+  }
+}); // Hide the shadow popup when clicking outside of it
+
+//--------------------------------------------------------------------------------
