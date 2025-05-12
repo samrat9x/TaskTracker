@@ -53,7 +53,7 @@ function displayTasks() {
     // -------------------------------------------------------------------------------
     taskItem.addEventListener("touchstart", (e) => {
       if (e.target.classList.contains("delete")) {
-        // taskItem.draggable = false; // Disable dragging when the delete button is clicked
+        taskItem.draggable = false; // Disable dragging when the delete button is clicked
         console.log("Delete button clicked");
         e.stopPropagation(); // Prevent the touch event from propagating
       }
