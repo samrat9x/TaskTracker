@@ -1,4 +1,4 @@
-const cacheName = "complement-cache-v4"; // Updated cache version
+const cacheName = "complement-cache-v1"; // Updated cache version
 const assetsToCache = [
   "index.html",
   "manifest.json",
