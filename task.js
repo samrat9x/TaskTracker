@@ -53,7 +53,7 @@ function displayTasks() {
 
     const deleteBtn = taskItem.querySelector(".delete");
     if (deleteBtn) {
-      deleteBtn.addEventListener("click", (e) => {
+      deleteBtn.addEventListener("pointerdown", (e) => {
         console.log("Delete button clicked");
         e.stopPropagation(); // Prevent the click event from bubbling up to the task item
       });
