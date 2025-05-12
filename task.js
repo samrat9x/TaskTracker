@@ -53,6 +53,7 @@ function displayTasks() {
     // -------------------------------------------------------------------------------
     taskItem.addEventListener("touchstart", (e) => {
       if (e.target.innerText === "Delete") {
+        e.stopPropagation(); // Prevent the event from bubbling up
         console.log("Delete button clicked", index);
         deleteTask(index); // Call the delete function if the delete button is clicked
       }
