@@ -48,7 +48,7 @@ function displayTasks() {
               task.completed ? "completed" : ""
             }" onclick="toggleCompletion(${index})">${task.name}</div>
             <button class="edit" onclick="editTask(${index})">Edit</button>
-            <button class="delete" onclick="deleteTask(${index})">Delete</button>
+            <button class="delete">Delete</button>
           `; // Create the inner HTML for the task item
     // -------------------------------------------------------------------------------
     taskItem.addEventListener("touchstart", (e) => {
