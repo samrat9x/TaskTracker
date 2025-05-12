@@ -36,3 +36,9 @@ function updateClock() {
 // Update the clock every second
 setInterval(updateClock, 1000);
 updateClock(); // Initial call to display the time immediately
+
+// Footer year
+const yearContainer = document.querySelector(".year-container");
+const currentYear = today.getFullYear();
+yearContainer.textContent = currentYear;
+//--------------------------------------------------------------------------------
