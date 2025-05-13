@@ -61,8 +61,7 @@ function displayTasks() {
         console.log("Edit button clicked", index); // Debugging line
         editTask(index); // Call the edit function if the edit button is clicked
       }
-      if (e.target.classList.contains("task-name")) {
-        console.log("Task name clicked", index); // Debugging line
+      if (e.target.classList.contains("task-item")) {
         toggleCompletion(index); // Call the toggle function if the task name is clicked
       }
     }); // Add event listener to the task item for debugging
