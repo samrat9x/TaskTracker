@@ -61,7 +61,10 @@ function displayTasks() {
         console.log("Edit button clicked", index); // Debugging line
         editTask(index); // Call the edit function if the edit button is clicked
       }
-      if (e.target.className === "task-name") {
+      if (
+        e.target.className === "task-name" ||
+        e.target.className === "task-item"
+      ) {
         console.log("Task name clicked", index); // Debugging line
         toggleCompletion(index); // Call the toggle function if the task name is clicked
       }
