@@ -2,6 +2,8 @@ const cacheName = "complement-cache-v1"; // Updated cache version
 const assetsToCache = [
   "index.html",
   "style.css",
+  "time.js",
+  "task.js",
   "manifest.json",
   "icon-192x192.png",
   "icon-512x512.png",
