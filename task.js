@@ -44,9 +44,9 @@ function displayTasks() {
             <input type="checkbox" onclick="toggleCompletion(${index})" ${
       task.completed ? "checked" : ""
     }>
-            <div class="task-name ${
-              task.completed ? "completed" : ""
-            }" onclick="toggleCompletion(${index})">${task.name}</div>
+            <div class="task-name ${task.completed ? "completed" : ""}">${
+      task.name
+    }</div>
             <button class="edit">Edit</button>
             <button class="delete">Delete</button>
           `; // Create the inner HTML for the task item
