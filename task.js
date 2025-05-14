@@ -51,20 +51,21 @@ function displayTasks() {
             <button class="delete">Delete</button>
           `; // Create the inner HTML for the task item
     // -------------------------------------------------------------------------------
+    const editButton = taskItem.querySelector(".edit"); // Get the edit button
+    const deleteButton = taskItem.querySelector(".delete"); // Get the delete button
+    editButton.addEventListener("pointerdown", () => {
+      editTask(index); // Call the editTask function when the edit button is clicked
+    }); // Edit task when edit button is clicked
+    deleteButton.addEventListener("pointerdown", () => {
+      deleteTask(index); // Call the deleteTask function when the delete button is clicked
+    }); // Delete task when delete button is clicked
     taskItem.addEventListener("pointerdown", (e) => {
-      if (e.target.innerText === "Delete") {
-        // e.stopPropagation(); // Prevent the event from bubbling up
-        console.log("Delete button clicked", index); // Debugging line
-        deleteTask(index); // Call the delete function if the delete button is clicked
+      if (e.target.tagName !== "BUTTON") {
+        console.log("Task clicked"); // Log when the task item is clicked
+        taskItem.querySelector("input[type='checkbox']").click(); // Simulate a click on the checkbox
       }
-      if (e.target.innerText === "Edit") {
-        console.log("Edit button clicked", index); // Debugging line
-        editTask(index); // Call the edit function if the edit button is clicked
-      }
-      if (e.target.classList.contains("task-item")) {
-        toggleCompletion(index); // Call the toggle function if the task name is clicked
-      }
-    }); // Add event listener to the task item for debugging
+    }); // Toggle completion status when the task item is clicked
+
     // -------------------------------------------------------------------------------
 
     taskList.appendChild(taskItem); // Append the task item to the task list
