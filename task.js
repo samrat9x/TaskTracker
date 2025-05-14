@@ -61,7 +61,6 @@ function displayTasks() {
         console.log("Edit button clicked", index); // Debugging line
         editTask(index); // Call the edit function if the edit button is clicked
       }
-      
     }); // Add event listener to the task item for debugging
 
     // -------------------------------------------------------------------------------
