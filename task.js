@@ -53,11 +53,12 @@ function displayTasks() {
     // -------------------------------------------------------------------------------
     taskItem.addEventListener("pointerdown", (e) => {
       if (e.target.innerText === "Delete") {
-        // e.stopPropagation(); // Prevent the event from bubbling up
+        e.stopPropagation(); // Prevent the event from bubbling up
         console.log("Delete button clicked", index); // Debugging line
         deleteTask(index); // Call the delete function if the delete button is clicked
       }
       if (e.target.innerText === "Edit") {
+        e.stopPropagation(); // Prevent the event from bubbling up
         console.log("Edit button clicked", index); // Debugging line
         editTask(index); // Call the edit function if the edit button is clicked
       }
