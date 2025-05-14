@@ -56,7 +56,7 @@ function displayTasks() {
     taskItem.addEventListener("pointerdown", (e) => {
       console.log("Task item clicked");
     });
-    taskName.addEventListener("pointerdown", (e) => {
+    taskName.addEventListener("click", (e) => {
       toggleCompletion(index); // Call the toggleCompletion function with the task index
       console.log("Task name clicked");
       e.stopPropagation();
@@ -66,12 +66,12 @@ function displayTasks() {
       toggleCompletion(index); // Call the toggleCompletion function with the task index
       e.stopPropagation();
     });
-    editButton.addEventListener("pointerdown", (e) => {
+    editButton.addEventListener("click", (e) => {
       editTask(index); // Call the editTask function with the task index
       console.log("Edit button clicked");
       e.stopPropagation();
     });
-    deleteButton.addEventListener("pointerdown", (e) => {
+    deleteButton.addEventListener("click", (e) => {
       deleteTask(index); // Call the deleteTask function with the task index
       console.log("Delete button clicked");
       e.stopPropagation();
@@ -102,7 +102,7 @@ function editTask(index) {
 //--------------------------------------------------------------------------------
 
 function deleteTask(index) {
-  tasks[activeTab].splice(index, 1);
+  tasks[activeTab].splice(index, 1); // Remove the task from the list
   saveTasks();
   displayTasks();
 } // Delete a task from the list
