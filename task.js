@@ -41,9 +41,7 @@ function displayTasks() {
     const taskItem = document.createElement("li"); // Create a new list item for each task
     taskItem.className = "task-item"; // Set the class for the task item
     taskItem.innerHTML = `
-            <input type="checkbox" onclick="toggleCompletion(${index})" ${
-      task.completed ? "checked" : ""
-    }>
+            <input type="checkbox" ${task.completed ? "checked" : ""}>
             <div class="task-name ${task.completed ? "completed" : ""}">${
       task.name
     }</div>
@@ -51,18 +49,33 @@ function displayTasks() {
             <button class="delete">Delete</button>
           `; // Create the inner HTML for the task item
     // -------------------------------------------------------------------------------
+    const checkbox = taskItem.querySelector("input[type='checkbox']"); // Get the checkbox element
+    const taskName = taskItem.querySelector(".task-name"); // Get the task name element
+    const editButton = taskItem.querySelector(".edit"); // Get the edit button
+    const deleteButton = taskItem.querySelector(".delete"); // Get the delete button
     taskItem.addEventListener("pointerdown", (e) => {
-      if (e.target.innerText === "Delete") {
-        e.stopPropagation(); // Prevent the event from bubbling up
-        console.log("Delete button clicked", index); // Debugging line
-        deleteTask(index); // Call the delete function if the delete button is clicked
-      }
-      if (e.target.innerText === "Edit") {
-        e.stopPropagation(); // Prevent the event from bubbling up
-        console.log("Edit button clicked", index); // Debugging line
-        editTask(index); // Call the edit function if the edit button is clicked
-      }
-    }); // Add event listener to the task item for debugging
+      console.log("Task item clicked");
+    });
+    taskName.addEventListener("pointerdown", (e) => {
+      toggleCompletion(index); // Call the toggleCompletion function with the task index
+      console.log("Task name clicked");
+      e.stopPropagation();
+    });
+    checkbox.addEventListener("change", (e) => {
+      console.log("Checkbox clicked");
+      toggleCompletion(index); // Call the toggleCompletion function with the task index
+      e.stopPropagation();
+    });
+    editButton.addEventListener("pointerdown", (e) => {
+      editTask(index); // Call the editTask function with the task index
+      console.log("Edit button clicked");
+      e.stopPropagation();
+    });
+    deleteButton.addEventListener("pointerdown", (e) => {
+      deleteTask(index); // Call the deleteTask function with the task index
+      console.log("Delete button clicked");
+      e.stopPropagation();
+    });
 
     // -------------------------------------------------------------------------------
 
