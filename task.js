@@ -93,6 +93,9 @@ function editTask(index) {
     saveTasks();
     displayTasks();
   } else {
+    saveTasks();
+    displayTasks();
+    console.log("No name provided", newName); // Log if no name is provided
     return; // If no name is provided, do nothing
   }
 } // Edit the name of a task
