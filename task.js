@@ -13,6 +13,11 @@ const addTaskPopup = document.getElementById("addTaskPopup"); // Get the popup f
 const taskNameInput = document.getElementById("taskName"); // Get the input field for the task name
 const closePopupButton = document.getElementById("closePopup"); // Get the button to close the popup
 
+const editPopup = document.getElementById("editPopup"); // Get the popup for editing a task
+const editTaskNameInput = document.getElementById("editTaskName"); // Get the input field for editing the task name
+const editSave = document.getElementById("editSave"); // Get the button to save the edited task
+const editClosePopup = document.getElementById("editClosePopup"); // Get the button to close the edit popup
+
 function initializeTabs() {
   ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].forEach((day) => {
     const button = document.createElement("button"); // Create a new button for each day of the week
@@ -59,7 +64,7 @@ function displayTasks() {
       toggleCompletion(index); // Toggle the completion status of the task
       console.log("checkbox");
     });
-    editButton.addEventListener("mousedown", (e) => {
+    editButton.addEventListener("pointerdown", (e) => {
       e.stopPropagation(); // Prevent event bubbling
       editTask(index); // Edit the task when the edit button is clicked
       console.log("edit");
@@ -68,9 +73,6 @@ function displayTasks() {
       e.stopPropagation(); // Prevent event bubbling
       deleteTask(index); // Delete the task when the delete button is clicked
       console.log("delete");
-    });
-    taskItem.addEventListener("click", (e) => {
-      console.log("taskItem");
     });
     // -------------------------------------------------------------------------------
 
@@ -84,16 +86,30 @@ function toggleCompletion(index) {
   saveTasks();
   displayTasks();
 } // Toggle the completion status of a task
-//--------------------------------------------------------------------------------
 
+//--------------------------------------------------------------------------------
+let indexPreserve = 0; // Variable to preserve the index of the task being edited
 function editTask(index) {
-  const newName = prompt("Edit Task Name:", tasks[activeTab][index].name);
-  if (newName) {
-    tasks[activeTab][index].name = newName; // Update the task name
+  editPopup.style.display = "flex"; // Show the edit popup
+  editTaskNameInput.value = tasks[activeTab][index].name; // Set the input field to the current task name
+  indexPreserve = index; // Preserve the index of the task being edited
+  editClosePopup.addEventListener("click", () => {
+    editPopup.style.display = "none"; // Hide the edit popup when the close button is clicked
+    editTaskNameInput.value = ""; // Clear the input field
+  }); // Close the edit popup when the close button is clicked
+}
+
+editSave.addEventListener("click", () => {
+  const newTaskName = editTaskNameInput.value.trim(); // Get the new task name from the input field
+  if (newTaskName) {
+    tasks[activeTab][indexPreserve].name = newTaskName; // Update the task name
     saveTasks();
     displayTasks();
+    editPopup.style.display = "none"; // Hide the edit popup
+    editTaskNameInput.value = ""; // Clear the input field
   }
-} // Edit the name of a task
+}); // Save the edited task when the save button is clicked
+
 //--------------------------------------------------------------------------------
 
 function deleteTask(index) {
