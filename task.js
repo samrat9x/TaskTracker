@@ -58,7 +58,7 @@ function displayTasks() {
     const editButton = taskItem.querySelector(".edit"); // Get the edit button
     const deleteButton = taskItem.querySelector(".delete"); // Get the delete button
 
-    checkbox.addEventListener("pointerdown", (e) => {
+    checkbox.addEventListener("change", (e) => {
       e.stopPropagation(); // Prevent event bubbling
       toggleCompletion(index); // Toggle the completion status of the task
       console.log("checkbox");
