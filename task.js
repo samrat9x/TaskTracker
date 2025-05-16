@@ -93,10 +93,6 @@ function editTask(index) {
   editPopup.style.display = "flex"; // Show the edit popup
   editTaskNameInput.value = tasks[activeTab][index].name; // Set the input field to the current task name
   indexPreserve = index; // Preserve the index of the task being edited
-  editClosePopup.addEventListener("click", () => {
-    editPopup.style.display = "none"; // Hide the edit popup when the close button is clicked
-    editTaskNameInput.value = ""; // Clear the input field
-  }); // Close the edit popup when the close button is clicked
 }
 
 editSave.addEventListener("click", () => {
@@ -109,7 +105,10 @@ editSave.addEventListener("click", () => {
     editTaskNameInput.value = ""; // Clear the input field
   }
 }); // Save the edited task when the save button is clicked
-
+editClosePopup.addEventListener("click", () => {
+  editPopup.style.display = "none"; // Hide the edit popup when the close button is clicked
+  editTaskNameInput.value = ""; // Clear the input field
+}); // Close the edit popup when the close button is clicked
 //--------------------------------------------------------------------------------
 
 function deleteTask(index) {
