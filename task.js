@@ -55,7 +55,6 @@ function displayTasks() {
           `; // Create the inner HTML for the task item
     // -------------------------------------------------------------------------------
     const checkbox = taskItem.querySelector("input[type='checkbox']"); // Get the checkbox for the task
-    // const taskName = taskItem.querySelector(".task-name"); // Get the task name element
     const editButton = taskItem.querySelector(".edit"); // Get the edit button
     const deleteButton = taskItem.querySelector(".delete"); // Get the delete button
 
@@ -69,7 +68,7 @@ function displayTasks() {
       editTask(index); // Edit the task when the edit button is clicked
       console.log("edit");
     });
-    deleteButton.addEventListener("click", (e) => {
+    deleteButton.addEventListener("pointerdown", (e) => {
       e.stopPropagation(); // Prevent event bubbling
       deleteTask(index); // Delete the task when the delete button is clicked
       console.log("delete");
