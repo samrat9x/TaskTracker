@@ -55,21 +55,21 @@ function displayTasks() {
     const deleteButton = taskItem.querySelector(".delete"); // Get the delete button
 
     checkbox.addEventListener("change", (e) => {
+      e.stopPropagation(); // Prevent event bubbling
       toggleCompletion(index); // Toggle the completion status of the task
       console.log("checkbox");
-      e.stopPropagation(); // Prevent event bubbling
     });
-    editButton.addEventListener("click", (e) => {
+    editButton.addEventListener("pointerdown", (e) => {
+      e.stopPropagation(); // Prevent event bubbling
       editTask(index); // Edit the task when the edit button is clicked
       console.log("edit");
-      e.stopPropagation(); // Prevent event bubbling
     });
-    deleteButton.addEventListener("click", (e) => {
+    deleteButton.addEventListener("pointerdown", (e) => {
+      e.stopPropagation(); // Prevent event bubbling
       deleteTask(index); // Delete the task when the delete button is clicked
       console.log("delete");
-      e.stopPropagation(); // Prevent event bubbling
     });
-    taskItem.addEventListener("click", (e) => {
+    taskItem.addEventListener("pointerdown", (e) => {
       console.log("taskItem");
     });
     // -------------------------------------------------------------------------------
@@ -92,6 +92,8 @@ function editTask(index) {
     tasks[activeTab][index].name = newName; // Update the task name
     saveTasks();
     displayTasks();
+  } else {
+    return; // If no name is provided, do nothing
   }
 } // Edit the name of a task
 //--------------------------------------------------------------------------------
