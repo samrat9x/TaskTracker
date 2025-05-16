@@ -53,28 +53,25 @@ function displayTasks() {
     const taskName = taskItem.querySelector(".task-name"); // Get the task name element
     const editButton = taskItem.querySelector(".edit"); // Get the edit button
     const deleteButton = taskItem.querySelector(".delete"); // Get the delete button
+
     taskItem.addEventListener("pointerdown", (e) => {
       console.log("Task item clicked");
     });
-    // taskName.addEventListener("pointerdown", (e) => {
-    //   toggleCompletion(index); // Call the toggleCompletion function with the task index
-    //   console.log("Task name clicked");
-    //   e.stopPropagation();
-    // });
+
     checkbox.addEventListener("change", (e) => {
+      e.stopPropagation();
       console.log("Checkbox clicked");
       toggleCompletion(index); // Call the toggleCompletion function with the task index
-      e.stopPropagation();
     });
     editButton.addEventListener("pointerdown", (e) => {
+      e.stopPropagation();
       editTask(index); // Call the editTask function with the task index
       console.log("Edit button clicked");
-      e.stopPropagation();
     });
     deleteButton.addEventListener("pointerdown", (e) => {
+      e.stopPropagation();
       deleteTask(index); // Call the deleteTask function with the task index
       console.log("Delete button clicked");
-      e.stopPropagation();
     });
 
     // -------------------------------------------------------------------------------
