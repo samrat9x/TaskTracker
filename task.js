@@ -49,31 +49,29 @@ function displayTasks() {
             <button class="delete">Delete</button>
           `; // Create the inner HTML for the task item
     // -------------------------------------------------------------------------------
-    const checkbox = taskItem.querySelector("input[type='checkbox']"); // Get the checkbox element
-    const taskName = taskItem.querySelector(".task-name"); // Get the task name element
+    const checkbox = taskItem.querySelector("input[type='checkbox']"); // Get the checkbox for the task
+    // const taskName = taskItem.querySelector(".task-name"); // Get the task name element
     const editButton = taskItem.querySelector(".edit"); // Get the edit button
     const deleteButton = taskItem.querySelector(".delete"); // Get the delete button
 
-    taskItem.addEventListener("pointerdown", (e) => {
-      console.log("Task item clicked");
-    });
-
     checkbox.addEventListener("change", (e) => {
-      e.stopPropagation();
-      console.log("Checkbox clicked");
-      toggleCompletion(index); // Call the toggleCompletion function with the task index
+      toggleCompletion(index); // Toggle the completion status of the task
+      console.log("checkbox");
+      e.stopPropagation(); // Prevent event bubbling
     });
-    editButton.addEventListener("pointerdown", (e) => {
-      e.stopPropagation();
-      editTask(index); // Call the editTask function with the task index
-      console.log("Edit button clicked");
+    editButton.addEventListener("click", (e) => {
+      editTask(index); // Edit the task when the edit button is clicked
+      console.log("edit");
+      e.stopPropagation(); // Prevent event bubbling
     });
-    deleteButton.addEventListener("pointerdown", (e) => {
-      e.stopPropagation();
-      deleteTask(index); // Call the deleteTask function with the task index
-      console.log("Delete button clicked");
+    deleteButton.addEventListener("click", (e) => {
+      deleteTask(index); // Delete the task when the delete button is clicked
+      console.log("delete");
+      e.stopPropagation(); // Prevent event bubbling
     });
-
+    taskItem.addEventListener("click", (e) => {
+      console.log("taskItem");
+    });
     // -------------------------------------------------------------------------------
 
     taskList.appendChild(taskItem); // Append the task item to the task list
