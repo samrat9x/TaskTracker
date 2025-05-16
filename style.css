@@ -26,7 +26,7 @@ h1 {
 .tabs {
   display: flex;
   justify-content: center;
-  gap: 5px;
+  gap: 2px;
   margin-bottom: 20px;
 }
 .tab-button {
@@ -88,7 +88,7 @@ h1 {
 }
 #addTaskPopup {
   position: fixed;
-  bottom: 2%;
+  bottom: 8%;
   left: 2%;
   /* transform: translate(-50%, -50%); */
   background-color: white;
@@ -99,6 +99,7 @@ h1 {
   flex-direction: column;
   gap: 10px;
   z-index: 3;
+  width: 96%;
 }
 #addTaskPopup input,
 #addTaskPopup button {

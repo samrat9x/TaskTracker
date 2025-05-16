@@ -89,7 +89,6 @@ function toggleCompletion(index) {
 //--------------------------------------------------------------------------------
 let indexPreserve = 0; // Variable to preserve the index of the task being edited
 function editTask(index) {
-  shadowPopup.style.display = "block"; // Show the shadow popup
   editPopup.style.display = "flex"; // Show the edit popup
   editTaskNameInput.value = tasks[activeTab][index].name; // Set the input field to the current task name
   indexPreserve = index; // Preserve the index of the task being edited
