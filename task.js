@@ -59,17 +59,17 @@ function displayTasks() {
       toggleCompletion(index); // Toggle the completion status of the task
       console.log("checkbox");
     });
-    editButton.addEventListener("pointerdown", (e) => {
+    editButton.addEventListener("click", (e) => {
       e.stopPropagation(); // Prevent event bubbling
       editTask(index); // Edit the task when the edit button is clicked
       console.log("edit");
     });
-    deleteButton.addEventListener("pointerdown", (e) => {
+    deleteButton.addEventListener("click", (e) => {
       e.stopPropagation(); // Prevent event bubbling
       deleteTask(index); // Delete the task when the delete button is clicked
       console.log("delete");
     });
-    taskItem.addEventListener("pointerdown", (e) => {
+    taskItem.addEventListener("click", (e) => {
       console.log("taskItem");
     });
     // -------------------------------------------------------------------------------
@@ -92,11 +92,6 @@ function editTask(index) {
     tasks[activeTab][index].name = newName; // Update the task name
     saveTasks();
     displayTasks();
-  } else {
-    saveTasks();
-    displayTasks();
-    console.log("No name provided", newName); // Log if no name is provided
-    return; // If no name is provided, do nothing
   }
 } // Edit the name of a task
 //--------------------------------------------------------------------------------
