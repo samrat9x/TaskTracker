@@ -50,15 +50,15 @@ function displayTasks() {
             <div class="task-name ${task.completed ? "completed" : ""}">${
       task.name
     }</div>
-            <button class="edit">Edit</button>
-            <button class="delete">Delete</button>
+            <button class="edit"><i class="fa-regular fa-pen-to-square"></i></button>
+            <button class="delete"><i class="fa-regular fa-trash-can"></i></button>
           `; // Create the inner HTML for the task item
     // -------------------------------------------------------------------------------
     const checkbox = taskItem.querySelector("input[type='checkbox']"); // Get the checkbox for the task
     const editButton = taskItem.querySelector(".edit"); // Get the edit button
     const deleteButton = taskItem.querySelector(".delete"); // Get the delete button
 
-    checkbox.addEventListener("change", (e) => {
+    checkbox.addEventListener("pointerdown", (e) => {
       e.stopPropagation(); // Prevent event bubbling
       toggleCompletion(index); // Toggle the completion status of the task
       console.log("checkbox");
@@ -89,10 +89,12 @@ function toggleCompletion(index) {
 //--------------------------------------------------------------------------------
 let indexPreserve = 0; // Variable to preserve the index of the task being edited
 function editTask(index) {
+  shadowPopup.style.display = "block"; // Show the shadow popup
   editPopup.style.display = "flex"; // Show the edit popup
   editTaskNameInput.value = tasks[activeTab][index].name; // Set the input field to the current task name
   indexPreserve = index; // Preserve the index of the task being edited
   editClosePopup.addEventListener("click", () => {
+    shadowPopup.style.display = "none"; // Show the shadow popup
     editPopup.style.display = "none"; // Hide the edit popup when the close button is clicked
     editTaskNameInput.value = ""; // Clear the input field
   }); // Close the edit popup when the close button is clicked
@@ -105,6 +107,7 @@ editSave.addEventListener("click", () => {
     saveTasks();
     displayTasks();
     editPopup.style.display = "none"; // Hide the edit popup
+    shadowPopup.style.display = "none"; // Show the shadow popup
     editTaskNameInput.value = ""; // Clear the input field
   }
 }); // Save the edited task when the save button is clicked
@@ -140,19 +143,27 @@ function saveTask() {
       .querySelectorAll(".weekdays-container input:checked")
       .forEach((checkbox) => (checkbox.checked = false)); // Clear checkboxes
     addTaskPopup.style.display = "none"; // Hide the popup
+    plusBtn.classList.remove("rotatePlus"); // Rotate the button back to its original position
     displayTasks();
   }
 } // Save a new task to the list
 //--------------------------------------------------------------------------------
+const plusBtn = document.querySelector(".fa-circle-xmark");
+function rotatePlus() {
+  plusBtn.classList.toggle("rotatePlus"); // Rotate the button when clicked
+} // Rotate the add task button
 
 addTaskButton.addEventListener("click", () => {
-  addTaskPopup.style.display = "flex"; // Show the popup to add a new task
+  if (!plusBtn.classList.contains("rotatePlus")) {
+    rotatePlus(); // Rotate the button when clicked
+    addTaskPopup.style.display = "flex"; // Show the popup to add a new task
+    shadowPopup.style.display = "block"; // Show the shadow popup
+  } else {
+    addTaskPopup.style.display = "none"; // Hide the popup when the close button is clicked
+    shadowPopup.style.display = "none"; // Hide the popup when the close button is clicked
+    rotatePlus(); // Rotate the button back to its original position
+  }
 }); // Show the popup to add a new task
-
-closePopupButton.addEventListener("click", () => {
-  addTaskPopup.style.display = "none"; // Hide the popup when the close button is clicked
-  shadowPopup.style.display = "none"; // Hide the popup when the close button is clicked
-}); // Close the popup when the close button is clicked
 //--------------------------------------------------------------------------------
 
 function resetTasksIfDateChanged() {
@@ -214,13 +225,10 @@ initializeTabs();
 
 // Shadow popup when click + sign
 const shadowPopup = document.querySelector(".shadow-popup");
-addTaskButton.addEventListener("click", () => {
-  shadowPopup.style.display = "block"; // Show the shadow popup
-}); // Show the shadow popup when the add task button is clicked
 shadowPopup.addEventListener("click", (e) => {
   if (e.target === shadowPopup) {
     shadowPopup.style.display = "none"; // Hide the shadow popup when clicking outside
-    closePopupButton.click(); // Close the popup
+    addTaskButton.click(); // Close the popup
   }
 }); // Hide the shadow popup when clicking outside of it
 
