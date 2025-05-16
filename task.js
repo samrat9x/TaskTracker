@@ -59,7 +59,7 @@ function displayTasks() {
       toggleCompletion(index); // Toggle the completion status of the task
       console.log("checkbox");
     });
-    editButton.addEventListener("click", (e) => {
+    editButton.addEventListener("mousedown", (e) => {
       e.stopPropagation(); // Prevent event bubbling
       editTask(index); // Edit the task when the edit button is clicked
       console.log("edit");
