@@ -56,11 +56,11 @@ function displayTasks() {
     taskItem.addEventListener("pointerdown", (e) => {
       console.log("Task item clicked");
     });
-    taskName.addEventListener("pointerdown", (e) => {
-      toggleCompletion(index); // Call the toggleCompletion function with the task index
-      console.log("Task name clicked");
-      e.stopPropagation();
-    });
+    // taskName.addEventListener("pointerdown", (e) => {
+    //   toggleCompletion(index); // Call the toggleCompletion function with the task index
+    //   console.log("Task name clicked");
+    //   e.stopPropagation();
+    // });
     checkbox.addEventListener("change", (e) => {
       console.log("Checkbox clicked");
       toggleCompletion(index); // Call the toggleCompletion function with the task index
