@@ -26,16 +26,17 @@ h1 {
 .tabs {
   display: flex;
   justify-content: center;
-  gap: 2px;
+  gap: 3px;
   margin-bottom: 20px;
 }
 .tab-button {
-  padding: 1px 10px;
+  padding: 1px 0px;
   cursor: pointer;
   border: 1px solid #ddd;
   background-color: #f0f0f0;
   border-radius: 10px;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+  width: 42px;
 }
 .tab-button.active {
   background-color: #28a745;
@@ -59,6 +60,7 @@ h1 {
   flex: 1;
   font-weight: bold;
   cursor: pointer;
+  font-size: 0.8rem;
 }
 .task-item .task-name.completed {
   text-decoration: line-through;
@@ -102,7 +104,7 @@ h1 {
   flex-direction: column;
   gap: 10px;
   z-index: 3;
-  width: 96%;
+  width: 90%;
 }
 #addTaskPopup input,
 #addTaskPopup button {
