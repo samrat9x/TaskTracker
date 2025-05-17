@@ -36,61 +36,65 @@
     />
   </head>
   <body>
-    <section class="header">
-      <h1>MyTask</h1>
-      <div class="tabs">
-        <!-- Weekday tabs -->
-      </div>
-      <div class="timingSection">
-        <div id="date-container"></div>
-        <div id="time-container"></div>
-      </div>
-    </section>
-
-    <section class="myTask">
-      <button id="addTaskButton">
-        <i class="fa-regular fa-circle-xmark"></i>
-      </button>
-      <div class="shadow-popup"></div>
-      <ul id="taskList" class="drag-area"></ul>
-
-      <!-- Add Task Popup -->
-      <div id="addTaskPopup">
-        <input type="text" id="taskName" placeholder="Task Name" />
-        <div class="weekdays-container">
-          <label><input type="checkbox" value="Sun" /> Sunday</label>
-          <label><input type="checkbox" value="Mon" /> Monday</label>
-          <label><input type="checkbox" value="Tue" /> Tuesday</label>
-          <label><input type="checkbox" value="Wed" /> Wednesday</label>
-          <label><input type="checkbox" value="Thu" /> Thursday</label>
-          <label><input type="checkbox" value="Fri" /> Friday</label>
-          <label><input type="checkbox" value="Sat" /> Saturday</label>
+    <main>
+      <section class="header">
+        <h1>MyTask</h1>
+        <div class="tabs">
+          <!-- Weekday tabs -->
         </div>
-        <button onclick="saveTask()">Save Task</button>
-      </div>
-      <!-- Edit Task Popup -->
-      <div id="editPopup">
-        <p>Edit Task:</p>
-        <input type="text" id="editTaskName" />
-        <button id="editSave">Ok</button>
-        <button id="editClosePopup">Cancel</button>
-      </div>
-    </section>
-    <p
-      style="
-        text-align: center;
-        background-color: #1b242d;
-        color: #28a745;
-        font-size: 10px;
-        padding: 50px;
-      "
-    >
-      &copy;
-      <a href="https://samrat.top" style="text-decoration: none; color: #28a745"
-        >SAMRAT</a
+        <div class="timingSection">
+          <div id="date-container"></div>
+          <div id="time-container"></div>
+        </div>
+      </section>
+
+      <section class="myTask">
+        <button id="addTaskButton">
+          <i class="fa-regular fa-circle-xmark"></i>
+        </button>
+        <div class="shadow-popup"></div>
+        <ul id="taskList" class="drag-area"></ul>
+
+        <!-- Add Task Popup -->
+        <div id="addTaskPopup">
+          <input type="text" id="taskName" placeholder="Task Name" />
+          <div class="weekdays-container">
+            <label><input type="checkbox" value="Sun" /> Sunday</label>
+            <label><input type="checkbox" value="Mon" /> Monday</label>
+            <label><input type="checkbox" value="Tue" /> Tuesday</label>
+            <label><input type="checkbox" value="Wed" /> Wednesday</label>
+            <label><input type="checkbox" value="Thu" /> Thursday</label>
+            <label><input type="checkbox" value="Fri" /> Friday</label>
+            <label><input type="checkbox" value="Sat" /> Saturday</label>
+          </div>
+          <button onclick="saveTask()">Save Task</button>
+        </div>
+        <!-- Edit Task Popup -->
+        <div id="editPopup">
+          <p>Edit Task:</p>
+          <input type="text" id="editTaskName" />
+          <button id="editSave">Ok</button>
+          <button id="editClosePopup">Cancel</button>
+        </div>
+      </section>
+      <p
+        style="
+          text-align: center;
+          background-color: #1b242d00;
+          color: #d9dbd9;
+          font-size: 10px;
+          padding: 50px;
+        "
       >
-      | <span class="year-container"></span>
-    </p>
+        &copy;
+        <a
+          href="https://samrat.top"
+          style="text-decoration: none; color: #bbd4c0"
+          >SAMRAT</a
+        >
+        | <span class="year-container"></span>
+      </p>
+    </main>
 
     <script src="./time.js"></script>
 
