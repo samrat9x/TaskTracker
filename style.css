@@ -30,7 +30,7 @@ h1 {
   margin-bottom: 20px;
 }
 .tab-button {
-  padding: 1px 15px;
+  padding: 1px 10px;
   cursor: pointer;
   border: 1px solid #ddd;
   background-color: #f0f0f0;
@@ -178,20 +178,24 @@ h1 {
 .fa-circle-xmark {
   color: #ffffff;
   font-size: 2rem;
-  cursor: pointer;
   transform: rotate(45deg);
   transition: transform 0.5s ease;
 }
 .fa-trash-can {
   color: #dc3545;
   font-size: 1rem;
-  cursor: pointer;
 }
 .fa-pen-to-square {
   color: #17a2b8;
   font-size: 1rem;
-  cursor: pointer;
 }
 .fa-circle-xmark.rotatePlus {
   transform: rotate(0deg);
+}
+.fa-solid.fa-circle-check {
+  color: #dc3545;
+  font-size: 1rem;
+}
+i {
+  cursor: pointer;
 }

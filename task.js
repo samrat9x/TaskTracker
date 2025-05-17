@@ -46,7 +46,11 @@ function displayTasks() {
     const taskItem = document.createElement("li"); // Create a new list item for each task
     taskItem.className = "task-item"; // Set the class for the task item
     taskItem.innerHTML = `
-            <input type="checkbox" ${task.completed ? "checked" : ""}>
+            <span class="checkbox">${
+              task.completed
+                ? "<i class='fa-solid fa-circle-check'></i>"
+                : "<i class='fa-regular fa-circle-check'></i>"
+            }</span>
             <div class="task-name ${task.completed ? "completed" : ""}">${
       task.name
     }</div>
@@ -54,11 +58,11 @@ function displayTasks() {
             <button class="delete"><i class="fa-regular fa-trash-can"></i></button>
           `; // Create the inner HTML for the task item
     // -------------------------------------------------------------------------------
-    const checkbox = taskItem.querySelector("input[type='checkbox']"); // Get the checkbox for the task
+    const checkbox = taskItem.querySelector(".checkbox"); // Get the checkbox for the task
     const editButton = taskItem.querySelector(".edit"); // Get the edit button
     const deleteButton = taskItem.querySelector(".delete"); // Get the delete button
 
-    checkbox.addEventListener("change", (e) => {
+    checkbox.addEventListener("pointerdown", (e) => {
       e.stopPropagation(); // Prevent event bubbling
       toggleCompletion(index); // Toggle the completion status of the task
       console.log("checkbox");
@@ -143,7 +147,7 @@ function saveTask() {
       .forEach((checkbox) => (checkbox.checked = false)); // Clear checkboxes
     addTaskPopup.style.display = "none"; // Hide the popup
     plusBtn.classList.remove("rotatePlus"); // Rotate the button back to its original position
-    displayTasks();
+    displayTasks(); // Show the updated tasks
   }
 } // Save a new task to the list
 //--------------------------------------------------------------------------------
