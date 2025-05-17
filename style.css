@@ -50,7 +50,7 @@ h1 {
   display: flex;
   align-items: center;
   margin-top: 10px;
-  padding: 10px;
+  padding-right: 10px;
   background: #f8f9fa;
   border-radius: 5px;
   gap: 15px;
@@ -65,9 +65,14 @@ h1 {
   color: #dc3545;
   background-color: rgb(255, 0, 0, 0.2);
 }
-.task-item input[type="checkbox"] {
-  transform: scale(1.2);
+.task-item .checkbox {
+  background-color: #0a2c882d;
   cursor: pointer;
+  width: 35px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .task-item button.edit,
 .task-item button.delete {
@@ -90,10 +95,8 @@ h1 {
   position: fixed;
   bottom: 8%;
   left: 2%;
-  /* transform: translate(-50%, -50%); */
   background-color: white;
   padding: 20px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
   display: none;
   flex-direction: column;
@@ -182,7 +185,7 @@ h1 {
   transition: transform 0.5s ease;
 }
 .fa-trash-can {
-  color: #dc3545;
+  color: #db3647;
   font-size: 1rem;
 }
 .fa-pen-to-square {
@@ -194,7 +197,10 @@ h1 {
 }
 .fa-solid.fa-circle-check {
   color: #dc3545;
-  font-size: 1rem;
+  font-size: 1.2rem;
+}
+.fa-circle-check {
+  font-size: 1.2rem;
 }
 i {
   cursor: pointer;
