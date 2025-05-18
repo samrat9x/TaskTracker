@@ -100,6 +100,7 @@ h1 {
 .task-item button.delete {
   border: none;
   cursor: pointer;
+  background-color: transparent;
 }
 #addTaskButton {
   position: fixed;
@@ -174,16 +175,23 @@ h1 {
   display: none;
   z-index: 2;
 }
-.weekdays-container {
+.weekdays-container,
+.importance,
+.editImportance {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
-.weekdays-container label {
+.weekdays-container label,
+.importance label,
+.editImportance label {
   display: flex;
   align-items: center;
   gap: 5px;
   cursor: pointer;
+  border-radius: 10px;
+  padding: 1px 8px;
+  padding-left: 3px;
 }
 #date-container,
 #time-container {
@@ -206,12 +214,9 @@ h1 {
   transform: rotate(45deg);
   transition: transform 0.5s ease;
 }
+.fa-pen-to-square,
 .fa-trash-can {
-  color: #db3647;
-  font-size: 1rem;
-}
-.fa-pen-to-square {
-  color: #17a2b8;
+  color: #000000;
   font-size: 1rem;
 }
 .fa-circle-xmark.rotatePlus {
@@ -226,4 +231,29 @@ h1 {
 }
 i {
   cursor: pointer;
+}
+.high {
+  background-color: #cef1d4;
+}
+.medium {
+  background-color: #f5eebd;
+}
+.low {
+  background-color: #f5c5c5;
+}
+
+.editImportanceLabelHigh,
+.importanceLabelHigh {
+  background-color: #cef1d4;
+  border: 1px solid #2ef085;
+}
+.editImportanceLabelMedium,
+.importanceLabelMedium {
+  background-color: #f5eebd;
+  border: 1px solid #f0c200;
+}
+.editImportanceLabelLow,
+.importanceLabelLow {
+  background-color: #f5c5c5;
+  border: 1px solid #f00000;
 }

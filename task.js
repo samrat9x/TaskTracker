@@ -17,6 +17,7 @@ const editPopup = document.getElementById("editPopup"); // Get the popup for edi
 const editTaskNameInput = document.getElementById("editTaskName"); // Get the input field for editing the task name
 const editSave = document.getElementById("editSave"); // Get the button to save the edited task
 const editClosePopup = document.getElementById("editClosePopup"); // Get the button to close the edit popup
+const editPriority = document.querySelectorAll(".editImportance input"); // Get the radio buttons for task priority
 
 function initializeTabs() {
   ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].forEach((day) => {
@@ -45,6 +46,7 @@ function displayTasks() {
   dayTasks.forEach((task, index) => {
     const taskItem = document.createElement("li"); // Create a new list item for each task
     taskItem.className = "task-item"; // Set the class for the task item
+    taskItem.className += ` ${task.priority}`; // Add the priority class to the task item
     taskItem.innerHTML = `
             <span class="checkbox">${
               task.completed
@@ -95,6 +97,13 @@ let indexPreserve = 0; // Variable to preserve the index of the task being edite
 function editTask(index) {
   editPopup.style.display = "flex"; // Show the edit popup
   editTaskNameInput.value = tasks[activeTab][index].name; // Set the input field to the current task name
+  editPriority.forEach((radio) => {
+    radio.checked = false; // Uncheck all radio buttons
+    if (radio.value === tasks[activeTab][index].priority) {
+      radio.checked = true; // Check the radio button that matches the task's priority
+    }
+  }); // Set the radio button for the task's priority
+
   indexPreserve = index; // Preserve the index of the task being edited
   editClosePopup.addEventListener("click", () => {
     shadowPopup.style.display = "none"; // Show the shadow popup
@@ -105,7 +114,11 @@ function editTask(index) {
 
 editSave.addEventListener("click", () => {
   const newTaskName = editTaskNameInput.value.trim(); // Get the new task name from the input field
-  if (newTaskName) {
+  const selectedPriority = document.querySelector(
+    ".editImportance input:checked"
+  )?.value; // Get the selected priority from the radio buttons
+  if (newTaskName && selectedPriority) {
+    tasks[activeTab][indexPreserve].priority = selectedPriority; // Update the task priority
     tasks[activeTab][indexPreserve].name = newTaskName; // Update the task name
     saveTasks();
     displayTasks();
@@ -134,10 +147,18 @@ function saveTask() {
   const selectedDays = Array.from(
     document.querySelectorAll(".weekdays-container input:checked")
   ).map((checkbox) => checkbox.value); // Get selected days from checkboxes
-  if (taskName && selectedDays.length) {
+  const selectedPriority = document.querySelector(
+    ".importance input:checked"
+  )?.value; // Get selected priority from checkboxes
+
+  if (taskName && selectedDays.length && selectedPriority) {
     selectedDays.forEach((day) => {
       tasks[day] = tasks[day] || []; // Initialize the day if it doesn't exist
-      tasks[day].push({ name: taskName, completed: false }); // Add the new task to the selected days
+      tasks[day].push({
+        name: taskName,
+        completed: false,
+        priority: selectedPriority,
+      }); // Add the new task to the selected days
     });
     saveTasks();
     shadowPopup.style.display = "none"; // Hide the shadow popup when clicking outside

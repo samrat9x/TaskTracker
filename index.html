@@ -67,12 +67,65 @@
             <label><input type="checkbox" value="Fri" /> Friday</label>
             <label><input type="checkbox" value="Sat" /> Saturday</label>
           </div>
+          <hr />
+          <div class="importance">
+            <label class="importanceLabelLow"
+              ><input
+                type="radio"
+                name="importance"
+                value="low"
+                style="accent-color: red"
+              />Low</label
+            >
+            <label class="importanceLabelMedium"
+              ><input
+                type="radio"
+                name="importance"
+                value="medium"
+                style="accent-color: yellow"
+              />Medium</label
+            >
+            <label class="importanceLabelHigh"
+              ><input
+                type="radio"
+                name="importance"
+                value="high"
+                style="accent-color: green"
+              />High</label
+            >
+          </div>
           <button onclick="saveTask()">Save Task</button>
         </div>
         <!-- Edit Task Popup -->
         <div id="editPopup">
           <p>Edit Task:</p>
           <input type="text" id="editTaskName" />
+          <div class="editImportance">
+            <label class="editImportanceLabelLow"
+              ><input
+                type="radio"
+                name="importance"
+                value="low"
+                style="accent-color: red"
+              />Low</label
+            >
+            <label class="editImportanceLabelMedium"
+              ><input
+                type="radio"
+                name="importance"
+                value="medium"
+                style="accent-color: yellow"
+              />Medium</label
+            >
+            <label class="editImportanceLabelHigh"
+              ><input
+                type="radio"
+                name="importance"
+                value="high"
+                style="accent-color: green"
+              />High</label
+            >
+          </div>
           <button id="editSave">Ok</button>
           <button id="editClosePopup">Cancel</button>
         </div>

@@ -1,4 +1,4 @@
-const cacheName = "complement-cache-v21"; // Updated cache version
+const cacheName = "complement-cache-v24"; // Updated cache version
 const assetsToCache = [
   "index.html",
   "style.css",
@@ -7,6 +7,7 @@ const assetsToCache = [
   "manifest.json",
   "icon-192x192.png",
   "icon-512x512.png",
+  "./img/whatsappImage.png",
 ];
 
 self.addEventListener("install", (event) => {
