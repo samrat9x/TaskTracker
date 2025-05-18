@@ -11,11 +11,12 @@ window.addEventListener("beforeinstallprompt", (e) => {
   installContainer.id = "install-container";
   installContainer.style.position = "fixed";
   installContainer.style.bottom = "20px";
-  installContainer.style.right = "20px";
+  installContainer.style.left = "20px";
   installContainer.style.padding = "10px";
-  installContainer.style.backgroundColor = "#ffffff";
+  installContainer.style.backgroundColor = "#4768d6";
   installContainer.style.border = "1px solid #ccc";
   installContainer.style.boxShadow = "0px 0px 10px rgba(0, 0, 0, 0.1)";
+  installContainer.style.boxRadius = "5px";
 
   // Create the Install button
   const installButton = document.createElement("button");
