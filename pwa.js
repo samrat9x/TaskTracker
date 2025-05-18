@@ -16,7 +16,7 @@ window.addEventListener("beforeinstallprompt", (e) => {
   installContainer.style.backgroundColor = "#4768d6";
   installContainer.style.border = "1px solid #ccc";
   installContainer.style.boxShadow = "0px 0px 10px rgba(0, 0, 0, 0.1)";
-  installContainer.style.boxRadius = "5px";
+  installContainer.style.borderRadius = "5px";
 
   // Create the Install button
   const installButton = document.createElement("button");
