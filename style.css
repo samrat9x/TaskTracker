@@ -133,7 +133,7 @@ h1 {
 }
 #addTaskPopup input,
 #addTaskPopup button {
-  color: gray;
+  color: #ddd;
   padding: 10px;
   font-size: 1rem;
   border: 1px solid #000000;
