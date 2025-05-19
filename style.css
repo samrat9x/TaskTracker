@@ -169,7 +169,7 @@ h1 {
   border: 1px solid #ddd;
   border-radius: 5px;
   background-color: #1b1b1b;
-  color: gray;
+  color: #ddd;
 }
 #editClosePopup {
   background-color: #342931 !important;
